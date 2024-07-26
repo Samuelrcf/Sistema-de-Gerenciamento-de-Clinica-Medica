@@ -1,6 +1,4 @@
-package com.samuelrogenes.clinicmanagement.dtos.paciente;
-
-import java.time.LocalDate;
+package com.samuelrogenes.clinicmanagement.dtos.medico;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -10,7 +8,7 @@ import jakarta.validation.constraints.Size;
 import lombok.Data;
 
 @Data
-public class CreatePacienteDto {
+public class MedicoDto {
 
     @NotBlank(message = "Nome completo não pode ser em branco")
     @Size(max = 100, message = "Nome completo deve ter no máximo 100 caracteres")
@@ -19,9 +17,6 @@ public class CreatePacienteDto {
     @NotBlank(message = "CPF não pode ser em branco")
     @Pattern(regexp = "\\d{11}", message = "CPF deve ter 11 dígitos numéricos")
     private String cpf;
-
-    @NotBlank(message = "Sexo não pode ser em branco")
-    private String sexo;
 
     @NotBlank(message = "Logradouro não pode ser em branco")
     @Size(max = 255, message = "Logradouro deve ter no máximo 255 caracteres")
@@ -35,8 +30,7 @@ public class CreatePacienteDto {
     @Size(max = 100, message = "Cidade deve ter no máximo 100 caracteres")
     private String cidade;
 
-    @NotBlank(message = "UF não pode ser em branco")
-    @Pattern(regexp = "[A-Z]{2}", message = "UF deve ter 2 letras maiúsculas")
+    @NotBlank(message = "UF não pode ser em branco") //dar uppercase
     private String uf;
 
     @NotBlank(message = "CEP não pode ser em branco")
@@ -51,17 +45,17 @@ public class CreatePacienteDto {
     @Email(message = "E-mail deve ser válido")
     private String email;
 
-    @NotNull(message = "Data de nascimento não pode ser nula")
-    private LocalDate dataDeNascimento;
+    @NotBlank(message = "Conselho médico não pode ser em branco")
+    private String conselhoMedico;
 
-    @NotBlank(message = "RG não pode ser em branco")
-    @Size(max = 11, message = "RG deve conter 11 caracteres")
-    private String RG;
+    @NotBlank(message = "UF do conselho não pode ser em branco")
+    @Size(max = 2, message = "UF do conselho deve ter no máximo 2 caracteres")
+    private String UFConselho;
 
-    @NotBlank(message = "Órgão emissor não pode ser em branco")
-    @Size(max = 50, message = "Órgão emissor deve ter no máximo 50 caracteres")
-    private String orgaoEmissor;
+    @NotNull(message = "Número do conselho não pode ser nulo")
+    private Integer numeroDoConselho;
 
-    @Size(max = 500, message = "Observações deve ter no máximo 500 caracteres")
-    private String observacoes;
+    @NotBlank(message = "CBO não pode ser em branco")
+    @Pattern(regexp = "\\d{6,7}", message = "CBO deve ter entre 6 e 7 caracteres") //dar replace no -
+    private String CBO;
 }

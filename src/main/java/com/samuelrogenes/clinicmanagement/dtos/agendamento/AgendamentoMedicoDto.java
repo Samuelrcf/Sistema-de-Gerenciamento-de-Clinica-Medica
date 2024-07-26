@@ -1,4 +1,4 @@
-package com.samuelrogenes.clinicmanagement.dtos.agendamentos;
+package com.samuelrogenes.clinicmanagement.dtos.agendamento;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -10,7 +10,7 @@ import jakarta.validation.constraints.Size;
 import lombok.Data;
 
 @Data
-public class CreateAgendamentoMedicoDto {
+public class AgendamentoMedicoDto {
 
     @NotNull(message = "Médico não pode ser nulo")
     private Long medicoId;
