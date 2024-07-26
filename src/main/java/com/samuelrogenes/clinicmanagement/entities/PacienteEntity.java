@@ -8,13 +8,15 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 @Entity(name = "pacientes")
 @AllArgsConstructor
 @NoArgsConstructor
 @Setter
 @Getter
-public class PacienteEntity extends UserEntity {
+@ToString
+public class PacienteEntity extends PessoaEntity {
 
 	@Column(nullable = false)
 	private String sexo;

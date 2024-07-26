@@ -1,7 +1,7 @@
 package com.samuelrogenes.clinicmanagement.entities;
 
 import java.time.LocalDate;
-import java.util.UUID;
+import java.time.LocalTime;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -14,17 +14,19 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 @Entity(name = "agendamentos")
 @AllArgsConstructor
 @NoArgsConstructor
 @Setter
 @Getter
+@ToString
 public class AgendamentoMedicoEntity {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.UUID)
-	private UUID id;
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
 	
 	@ManyToOne
 	@JoinColumn(name = "medico_id")
@@ -41,7 +43,7 @@ public class AgendamentoMedicoEntity {
 	private LocalDate dataDaConsulta;
 	
 	@Column(nullable = false)
-	private LocalDate horaDaConsulta;
+	private LocalTime horaDaConsulta;
 	
 	@Column(nullable = false)
 	private String local;

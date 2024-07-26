@@ -6,13 +6,15 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 @Entity(name = "medicos")
 @AllArgsConstructor
 @NoArgsConstructor
 @Setter
 @Getter
-public class MedicoEntity extends UserEntity {
+@ToString
+public class MedicoEntity extends PessoaEntity {
 
 	@Column(nullable = false)
 	private String conselhoMedico;

@@ -1,7 +1,5 @@
 package com.samuelrogenes.clinicmanagement.entities;
 
-import java.util.UUID;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -11,17 +9,19 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 @MappedSuperclass
 @AllArgsConstructor
 @NoArgsConstructor
 @Setter
 @Getter
-public class UserEntity {
+@ToString
+public class PessoaEntity {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.UUID)
-	private UUID id;
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
 	
 	@Column(nullable = false)
 	private String nomeCompleto;
