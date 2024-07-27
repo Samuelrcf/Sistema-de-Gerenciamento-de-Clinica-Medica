@@ -47,7 +47,8 @@ public class SecurityConfiguration {
 	                }
 	            }))
 	            .authorizeHttpRequests(authorize -> authorize
-	                    .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
+	                    .requestMatchers(HttpMethod.POST, "/api/usuarios/cadastrar").permitAll()
+	                    .requestMatchers(HttpMethod.POST, "/api/usuarios/login").permitAll()
 	                    .anyRequest().hasRole("USUARIO") 
 	            )
 	            .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
