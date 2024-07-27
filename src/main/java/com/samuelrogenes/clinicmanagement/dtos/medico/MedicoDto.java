@@ -34,7 +34,7 @@ public class MedicoDto {
     private String uf;
 
     @NotBlank(message = "CEP não pode ser em branco")
-    @Pattern(regexp = "\\d{8,9}", message = "CEP deve conter 8 dígitos numéricos") //dar replace no -
+    @Pattern(regexp = "\\d{8}", message = "CEP deve conter 8 dígitos numéricos") 
     private String cep;
 
     @NotBlank(message = "Telefone não pode ser em branco")
@@ -50,12 +50,11 @@ public class MedicoDto {
 
     @NotBlank(message = "UF do conselho não pode ser em branco")
     @Size(max = 2, message = "UF do conselho deve ter no máximo 2 caracteres")
-    private String UFConselho;
+    private String ufConselho;
 
     @NotNull(message = "Número do conselho não pode ser nulo")
     private Integer numeroDoConselho;
 
-    @NotBlank(message = "CBO não pode ser em branco")
-    @Pattern(regexp = "\\d{6,7}", message = "CBO deve ter entre 6 e 7 caracteres") //dar replace no -
-    private String CBO;
+    @Pattern(regexp = "\\d{5}", message = "CBO deve conter 5 caracteres") 
+    private String cbo;
 }

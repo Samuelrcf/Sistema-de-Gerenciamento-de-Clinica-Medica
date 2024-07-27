@@ -56,7 +56,7 @@ public class PacienteDto {
 
     @NotBlank(message = "RG não pode ser em branco")
     @Size(max = 11, message = "RG deve conter 11 caracteres")
-    private String RG;
+    private String rg;
 
     @NotBlank(message = "Órgão emissor não pode ser em branco")
     @Size(max = 50, message = "Órgão emissor deve ter no máximo 50 caracteres")
