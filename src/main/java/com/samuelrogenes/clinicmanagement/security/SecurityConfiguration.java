@@ -49,6 +49,9 @@ public class SecurityConfiguration {
 	            .authorizeHttpRequests(authorize -> authorize
 	                    .requestMatchers(HttpMethod.POST, "/api/usuarios/cadastrar").permitAll()
 	                    .requestMatchers(HttpMethod.POST, "/api/usuarios/login").permitAll()
+	                    .requestMatchers(HttpMethod.POST, "/api/usuarios/solicitar-alteracao-senha").permitAll()
+	                    .requestMatchers(HttpMethod.POST, "/api/usuarios/verificar-codigo").permitAll()
+	                    .requestMatchers(HttpMethod.POST, "/api/usuarios/alterar-senha").permitAll()
 	                    .anyRequest().hasRole("USUARIO") 
 	            )
 	            .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
