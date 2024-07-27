@@ -1,7 +1,6 @@
 package com.samuelrogenes.clinicmanagement.services.impl;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 import org.springframework.data.domain.Page;
@@ -33,19 +32,19 @@ public class AgendamentoMedicoService implements IAgendamentoMedicoService {
     private PacienteRepository pacienteRepository;
 
     @Override
-    public AgendamentoMedicoProjection create(AgendamentoMedicoDto agendamentoDto) {
+    public AgendamentoMedicoEntity create(AgendamentoMedicoDto agendamentoDto) {
         MedicoEntity medico = medicoRepository.findById(agendamentoDto.getMedicoId())
                 .orElseThrow(() -> new ResourceNotFoundException("Médico com ID " + agendamentoDto.getMedicoId() + " não encontrado"));
 
         PacienteEntity paciente = pacienteRepository.findById(agendamentoDto.getPacienteId())
                 .orElseThrow(() -> new ResourceNotFoundException("Paciente com ID " + agendamentoDto.getPacienteId() + " não encontrado"));
 
-        validateHorario(agendamentoDto.getMedicoId(), agendamentoDto.getDataDaConsulta(), agendamentoDto.getHoraDaConsulta());
+        validateHorario(agendamentoDto.getDataDaConsulta(), agendamentoDto.getHoraDaConsulta(), null);
 
         AgendamentoMedicoEntity agendamento = AgendamentoMedicoMapper.mapperToAgendamentoMedicoEntity(new AgendamentoMedicoEntity(), agendamentoDto, medico, paciente);
         AgendamentoMedicoEntity agendamentoSalvo = agendamentoMedicoRepository.save(agendamento);
 
-        return agendamentoMedicoRepository.findAgendamentoById(agendamentoSalvo.getId())
+        return agendamentoMedicoRepository.findById(agendamentoSalvo.getId())
                 .orElseThrow(() -> new ResourceNotFoundException("Agendamento com ID " + agendamentoSalvo.getId() + " não encontrado"));
     }
 
@@ -62,7 +61,7 @@ public class AgendamentoMedicoService implements IAgendamentoMedicoService {
     }
 
     @Override
-    public AgendamentoMedicoProjection update(Long id, AgendamentoMedicoDto agendamentoDto) {
+    public AgendamentoMedicoEntity update(Long id, AgendamentoMedicoDto agendamentoDto) {
         AgendamentoMedicoEntity agendamento = agendamentoMedicoRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Agendamento com ID " + id + " não encontrado"));
 
@@ -72,12 +71,12 @@ public class AgendamentoMedicoService implements IAgendamentoMedicoService {
         PacienteEntity paciente = pacienteRepository.findById(agendamentoDto.getPacienteId())
                 .orElseThrow(() -> new ResourceNotFoundException("Paciente com ID " + agendamentoDto.getPacienteId() + " não encontrado"));
 
-        validateHorario(agendamentoDto.getMedicoId(), agendamentoDto.getDataDaConsulta(), agendamentoDto.getHoraDaConsulta(), id);
+        validateHorario(agendamentoDto.getDataDaConsulta(), agendamentoDto.getHoraDaConsulta(), id);
 
         AgendamentoMedicoMapper.mapperToAgendamentoMedicoEntity(agendamento, agendamentoDto, medico, paciente);
         AgendamentoMedicoEntity agendamentoSalvo = agendamentoMedicoRepository.save(agendamento);
 
-        return agendamentoMedicoRepository.findAgendamentoById(agendamentoSalvo.getId())
+        return agendamentoMedicoRepository.findById(agendamentoSalvo.getId())
                 .orElseThrow(() -> new ResourceNotFoundException("Agendamento com ID " + agendamentoSalvo.getId() + " não encontrado"));
     }
 
@@ -89,26 +88,32 @@ public class AgendamentoMedicoService implements IAgendamentoMedicoService {
         agendamentoMedicoRepository.delete(agendamento);
         return true;
     }
+    
+    private void validateHorario(LocalDate dataDaConsulta, LocalTime horaDaConsulta, Long agendamentoId) {
+        LocalTime inicioHoraMin = horaDaConsulta.minusMinutes(29);
+        LocalTime fimHoraMax = horaDaConsulta.plusMinutes(29);
 
-    private void validateHorario(Long medicoId, LocalDate dataDaConsulta, LocalTime horaDaConsulta) {
-        LocalDateTime inicioConsulta = LocalDateTime.of(dataDaConsulta, horaDaConsulta);
-        LocalDateTime fimConsulta = inicioConsulta.plusMinutes(30);
+        boolean conflito;
+        if (agendamentoId == null) {
+            conflito = agendamentoMedicoRepository.findAgendamentosNoHorario(
+                dataDaConsulta,
+                inicioHoraMin,
+                fimHoraMax,
+                horaDaConsulta
+            ).isEmpty();
+        } else {
+            conflito = agendamentoMedicoRepository.findAgendamentosByHorarioExceptId(
+                dataDaConsulta,
+                inicioHoraMin,
+                fimHoraMax,
+                horaDaConsulta,
+                agendamentoId
+            ).isEmpty();
+        }
 
-        boolean conflito = agendamentoMedicoRepository.findAgendamentosByMedicoAndHorario(medicoId, inicioConsulta, fimConsulta).isPresent();
-
-        if (conflito) {
-            throw new ConflictException("Já existe um agendamento para o médico nesse horário.");
+        if (!conflito) {
+            throw new ConflictException("Já existe um agendamento para esse horário.");
         }
     }
 
-    private void validateHorario(Long medicoId, LocalDate dataDaConsulta, LocalTime horaDaConsulta, Long agendamentoId) {
-        LocalDateTime inicioConsulta = LocalDateTime.of(dataDaConsulta, horaDaConsulta);
-        LocalDateTime fimConsulta = inicioConsulta.plusMinutes(30);
-
-        boolean conflito = agendamentoMedicoRepository.findAgendamentosByMedicoAndHorarioExceptId(medicoId, inicioConsulta, fimConsulta, agendamentoId).isPresent();
-
-        if (conflito) {
-            throw new ConflictException("Já existe um agendamento para o médico nesse horário.");
-        }
-    }
 }

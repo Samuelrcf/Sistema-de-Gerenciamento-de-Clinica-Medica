@@ -1,5 +1,7 @@
 package com.samuelrogenes.clinicmanagement.services.impl;
 
+import java.util.UUID;
+
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
@@ -12,26 +14,28 @@ import org.springframework.stereotype.Service;
 
 import com.samuelrogenes.clinicmanagement.dtos.usuario.CadastroDto;
 import com.samuelrogenes.clinicmanagement.dtos.usuario.LoginDto;
-import com.samuelrogenes.clinicmanagement.dtos.usuario.UsuarioProjection;
 import com.samuelrogenes.clinicmanagement.entities.UsuarioEntity;
 import com.samuelrogenes.clinicmanagement.exceptions.ResourceAlreadyExistsException;
 import com.samuelrogenes.clinicmanagement.exceptions.ResourceNotFoundException;
 import com.samuelrogenes.clinicmanagement.mapper.CadastroMapper;
 import com.samuelrogenes.clinicmanagement.repositories.UsuarioRepository;
+import com.samuelrogenes.clinicmanagement.services.IUsuarioService;
 
 import lombok.AllArgsConstructor;
 
 @Service
 @AllArgsConstructor
-public class UsuarioService {
+public class UsuarioService implements IUsuarioService{
 
 	private UsuarioRepository usuarioRepository;
 	private AuthenticationManager authenticationManager;
 	private TokenService tokenService;
 	private PasswordEncoder passwordEncoder;
+    private final EmailService emailService;
 
+    @Override
 	public String login(LoginDto loginDto) {
-		UserDetails email = usuarioRepository.findByUsername(loginDto.getNome());
+		UserDetails email = usuarioRepository.findByNome(loginDto.getNome());
 		if (email == null) {
 			throw new UsernameNotFoundException("O nome " + loginDto.getNome() + " não existe.");
 		}
@@ -49,30 +53,66 @@ public class UsuarioService {
 		}
 	}
 
-	public UsuarioProjection cadastrar(CadastroDto cadastroDto) {
-		// Verifica se o nome de usuário já está em uso
-		if (usuarioRepository.findByUsername(cadastroDto.getNome()) != null) {
-			throw new ResourceAlreadyExistsException(
-					"Não é possível cadastrar o nome " + cadastroDto.getNome() + " porque ele já está em uso.");
-		}
+    @Override
+    public UsuarioEntity cadastrar(CadastroDto cadastroDto) {
+        // Log input data
+        System.out.println("CadastroDTO: " + cadastroDto);
 
-		// Verifica se o email já está em uso
-		if (usuarioRepository.findUsuarioProjectionByEmail(cadastroDto.getEmail()) != null) {
-			throw new ResourceAlreadyExistsException(
-					"Não é possível cadastrar o email " + cadastroDto.getEmail() + " porque ele já está em uso.");
-		}
+        if (usuarioRepository.findByNome(cadastroDto.getNome()) != null) {
+            System.out.println("Nome já está em uso: " + cadastroDto.getNome());
+            throw new ResourceAlreadyExistsException(
+                    "Não é possível cadastrar o nome " + cadastroDto.getNome() + " porque ele já está em uso.");
+        }
 
-		// Mapeia o DTO para a entidade
-		UsuarioEntity usuarioMapeado = CadastroMapper.mapperToUsuarioEntity(new UsuarioEntity(), cadastroDto);
-		
-		String senhaCodificada = passwordEncoder.encode(cadastroDto.getSenha());
-		usuarioMapeado.setSenha(senhaCodificada); // Define a senha codificada na entidade
+        if (usuarioRepository.findByEmail(cadastroDto.getEmail()).isPresent()) {
+            System.out.println("Email já está em uso: " + cadastroDto.getEmail());
+            throw new ResourceAlreadyExistsException(
+                    "Não é possível cadastrar o email " + cadastroDto.getEmail() + " porque ele já está em uso.");
+        }
 
-		// Salva o usuário
-		UsuarioEntity usuarioSalvo = usuarioRepository.save(usuarioMapeado);
+        UsuarioEntity usuarioMapeado = CadastroMapper.mapperToUsuarioEntity(new UsuarioEntity(), cadastroDto);
 
-		// Retorna a projeção do usuário salvo
-		return usuarioRepository.findUsuarioById(usuarioSalvo.getId()).orElseThrow(
-				() -> new ResourceNotFoundException("Usuário com ID " + usuarioSalvo.getId() + " não encontrado"));
-	}
+        String senhaCodificada = passwordEncoder.encode(cadastroDto.getSenha());
+        usuarioMapeado.setSenha(senhaCodificada);
+
+        UsuarioEntity usuarioSalvo = usuarioRepository.save(usuarioMapeado);
+
+        return usuarioRepository.findById(usuarioSalvo.getId()).orElseThrow(
+                () -> new ResourceNotFoundException("Usuário com ID " + usuarioSalvo.getId() + " não encontrado"));
+    }
+
+	
+    @Override
+    public void solicitarAlteracaoSenha(String email) {
+        UsuarioEntity usuario = usuarioRepository.findByEmail(email).orElseThrow(() -> new ResourceNotFoundException("Usuário com e-mail " + email + " não encontrado"));
+
+        String codigoVerificacao = UUID.randomUUID().toString();
+        usuario.setCodigo(codigoVerificacao);
+        usuarioRepository.save(usuario);
+
+        emailService.enviarEmailVerificacao(usuario.getEmail(), codigoVerificacao);
+    }
+
+    @Override
+    public boolean verificarCodigo(String email, String codigo) {
+    	UsuarioEntity usuario = usuarioRepository.findByEmail(email).orElseThrow(() -> new ResourceNotFoundException("Usuário com e-mail " + email + " não encontrado"));
+        if (usuario == null || !usuario.getCodigo().equals(codigo)) {
+            return false;
+        }
+        usuario.setCodigo(null);
+        usuarioRepository.save(usuario);
+        return true;
+    }
+
+    @Override
+    public void alterarSenha(String email, String novaSenha) {
+        UsuarioEntity usuario = usuarioRepository.findByEmail(email).orElseThrow(() -> new ResourceNotFoundException("Usuário com e-mail " + email + " não encontrado"));
+        if (usuario == null) {
+            throw new ResourceNotFoundException("Usuário com e-mail " + email + " não encontrado");
+        }
+        
+        String senhaCodificada = passwordEncoder.encode(novaSenha);
+        usuario.setSenha(senhaCodificada);
+        usuarioRepository.save(usuario);
+    }
 }

@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
 
 import com.samuelrogenes.clinicmanagement.dtos.paciente.PacienteDto;
 import com.samuelrogenes.clinicmanagement.dtos.paciente.PacienteProjection;
@@ -17,15 +18,16 @@ import com.samuelrogenes.clinicmanagement.services.IPacienteService;
 
 import lombok.AllArgsConstructor;
 
+@Service
 @AllArgsConstructor
 public class PacienteService implements IPacienteService {
 
     private PacienteRepository pacienteRepository;
 
     @Override
-    public PacienteProjection create(PacienteDto pacienteDto) {
+    public PacienteEntity create(PacienteDto pacienteDto) {
 
-        List<PacienteEntity> conflictingPacientes = pacienteRepository.findConflictingPaciente(pacienteDto.getEmail(), pacienteDto.getTelefone(), pacienteDto.getCpf(), pacienteDto.getRG());
+        List<PacienteEntity> conflictingPacientes = pacienteRepository.findConflictingPaciente(pacienteDto.getEmail(), pacienteDto.getTelefone(), pacienteDto.getCpf(), pacienteDto.getRg());
 
         StringBuilder errorMessage = new StringBuilder("Conflito de dados:");
 
@@ -39,8 +41,8 @@ public class PacienteService implements IPacienteService {
             if (paciente.getCpf().equals(pacienteDto.getCpf())) {
                 errorMessage.append(" CPF " + pacienteDto.getCpf() + " já cadastrado.");
             }
-            if (paciente.getRG().equals(pacienteDto.getRG())) {
-            	errorMessage.append(" RG " + pacienteDto.getRG() + " já cadastrado.");
+            if (paciente.getRG().equals(pacienteDto.getRg())) {
+            	errorMessage.append(" RG " + pacienteDto.getRg() + " já cadastrado.");
             }
         }
 
@@ -51,7 +53,7 @@ public class PacienteService implements IPacienteService {
         PacienteEntity pacienteMapeado = PacienteMapper.mapperToPacienteEntity(new PacienteEntity(), pacienteDto);
         PacienteEntity pacienteSalvo = pacienteRepository.save(pacienteMapeado);
 
-        return pacienteRepository.findPacienteById(pacienteSalvo.getId()).orElseThrow(() -> new ResourceNotFoundException("Paciente com ID " + pacienteSalvo.getId() + " não encontrado"));
+        return pacienteRepository.findById(pacienteSalvo.getId()).orElseThrow(() -> new ResourceNotFoundException("Paciente com ID " + pacienteSalvo.getId() + " não encontrado"));
     }
 
     @Override
@@ -67,29 +69,22 @@ public class PacienteService implements IPacienteService {
     }
 
     @Override
-    public PacienteProjection update(Long id, PacienteDto pacienteDto) {
-        // Recupera o paciente existente
+    public PacienteEntity update(Long id, PacienteDto pacienteDto) {
         PacienteEntity pacienteExistente = pacienteRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Paciente com ID " + id + " não encontrado"));
 
-        // Encontra pacientes que podem ter o mesmo e-mail, telefone, CPF ou RG
         List<PacienteEntity> conflictingPacientes = pacienteRepository.findConflictingPaciente(
-                pacienteDto.getEmail(), pacienteDto.getTelefone(), pacienteDto.getCpf(), pacienteDto.getRG());
+                pacienteDto.getEmail(), pacienteDto.getTelefone(), pacienteDto.getCpf(), pacienteDto.getRg());
 
-        // Cria uma StringBuilder para construir a mensagem de erro
         StringBuilder errorMessage = new StringBuilder("Conflito de dados:");
 
-        // Verifica os pacientes encontrados
         for (PacienteEntity paciente : conflictingPacientes) {
-            // Verifica se o paciente encontrado não é o mesmo que está sendo atualizado
             if (!paciente.getId().equals(id)) {
-                // Verifica conflitos para e-mail, telefone, CPF e RG
                 boolean emailConflict = paciente.getEmail().equals(pacienteDto.getEmail()) && !paciente.getEmail().equals(pacienteExistente.getEmail());
                 boolean telefoneConflict = paciente.getTelefone().equals(pacienteDto.getTelefone()) && !paciente.getTelefone().equals(pacienteExistente.getTelefone());
                 boolean cpfConflict = paciente.getCpf().equals(pacienteDto.getCpf()) && !paciente.getCpf().equals(pacienteExistente.getCpf());
-                boolean rgConflict = paciente.getRG().equals(pacienteDto.getRG()) && !paciente.getRG().equals(pacienteExistente.getRG());
+                boolean rgConflict = paciente.getRG().equals(pacienteDto.getRg()) && !paciente.getRG().equals(pacienteExistente.getRG());
 
-                // Adiciona mensagens de erro conforme necessário
                 if (emailConflict) {
                     errorMessage.append(" Email " + pacienteDto.getEmail() + " já cadastrado.");
                 }
@@ -100,22 +95,19 @@ public class PacienteService implements IPacienteService {
                     errorMessage.append(" CPF " + pacienteDto.getCpf() + " já cadastrado.");
                 }
                 if (rgConflict) {
-                    errorMessage.append(" RG " + pacienteDto.getRG() + " já cadastrado.");
+                    errorMessage.append(" RG " + pacienteDto.getRg() + " já cadastrado.");
                 }
             }
         }
 
-        // Lança uma exceção se houver conflitos
         if (errorMessage.length() > "Conflito de dados:".length()) {
             throw new ResourceAlreadyExistsException(errorMessage.toString());
         }
 
-        // Atualiza e salva o paciente
         PacienteMapper.mapperToPacienteEntity(pacienteExistente, pacienteDto);
         PacienteEntity pacienteSalvo = pacienteRepository.save(pacienteExistente);
 
-        // Retorna o paciente salvo
-        return pacienteRepository.findPacienteById(pacienteSalvo.getId())
+        return pacienteRepository.findById(pacienteSalvo.getId())
                 .orElseThrow(() -> new ResourceNotFoundException("Paciente com ID " + pacienteSalvo.getId() + " não encontrado"));
     }
 
