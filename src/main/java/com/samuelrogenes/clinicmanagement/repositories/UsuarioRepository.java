@@ -10,8 +10,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import com.samuelrogenes.clinicmanagement.dtos.usuario.UsuarioProjection;
 import com.samuelrogenes.clinicmanagement.entities.UsuarioEntity;
+import com.samuelrogenes.clinicmanagement.projections.UsuarioProjection;
 
 public interface UsuarioRepository extends JpaRepository<UsuarioEntity, Long> {
 

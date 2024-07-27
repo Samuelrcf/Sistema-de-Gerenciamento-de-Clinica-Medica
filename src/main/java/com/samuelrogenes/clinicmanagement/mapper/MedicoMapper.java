@@ -1,6 +1,6 @@
 package com.samuelrogenes.clinicmanagement.mapper;
 
-import com.samuelrogenes.clinicmanagement.dtos.medico.MedicoDto;
+import com.samuelrogenes.clinicmanagement.dtos.MedicoDto;
 import com.samuelrogenes.clinicmanagement.entities.MedicoEntity;
 
 public class MedicoMapper {

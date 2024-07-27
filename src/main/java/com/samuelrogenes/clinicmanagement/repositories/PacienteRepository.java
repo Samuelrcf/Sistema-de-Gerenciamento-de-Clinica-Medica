@@ -9,8 +9,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import com.samuelrogenes.clinicmanagement.dtos.paciente.PacienteProjection;
 import com.samuelrogenes.clinicmanagement.entities.PacienteEntity;
+import com.samuelrogenes.clinicmanagement.projections.PacienteProjection;
 
 public interface PacienteRepository extends JpaRepository<PacienteEntity, Long> {
 

@@ -1,4 +1,4 @@
-package com.samuelrogenes.clinicmanagement.dtos.medico;
+package com.samuelrogenes.clinicmanagement.projections;
 
 public interface MedicoProjection {
 	

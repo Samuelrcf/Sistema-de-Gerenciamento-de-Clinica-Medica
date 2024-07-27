@@ -2,9 +2,9 @@ package com.samuelrogenes.clinicmanagement.services;
 
 import org.springframework.data.domain.Page;
 
-import com.samuelrogenes.clinicmanagement.dtos.agendamento.AgendamentoMedicoDto;
-import com.samuelrogenes.clinicmanagement.dtos.agendamento.AgendamentoMedicoProjection;
+import com.samuelrogenes.clinicmanagement.dtos.AgendamentoMedicoDto;
 import com.samuelrogenes.clinicmanagement.entities.AgendamentoMedicoEntity;
+import com.samuelrogenes.clinicmanagement.projections.AgendamentoMedicoProjection;
 
 public interface IAgendamentoMedicoService {
 

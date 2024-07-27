@@ -14,9 +14,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.samuelrogenes.clinicmanagement.dtos.agendamento.AgendamentoMedicoDto;
-import com.samuelrogenes.clinicmanagement.dtos.agendamento.AgendamentoMedicoProjection;
+import com.samuelrogenes.clinicmanagement.dtos.AgendamentoMedicoDto;
 import com.samuelrogenes.clinicmanagement.entities.AgendamentoMedicoEntity;
+import com.samuelrogenes.clinicmanagement.projections.AgendamentoMedicoProjection;
 import com.samuelrogenes.clinicmanagement.services.IAgendamentoMedicoService;
 
 import jakarta.validation.Valid;

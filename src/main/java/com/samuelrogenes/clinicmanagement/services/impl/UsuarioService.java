@@ -12,8 +12,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.samuelrogenes.clinicmanagement.dtos.usuario.CadastroDto;
-import com.samuelrogenes.clinicmanagement.dtos.usuario.LoginDto;
+import com.samuelrogenes.clinicmanagement.dtos.CadastroDto;
+import com.samuelrogenes.clinicmanagement.dtos.LoginDto;
 import com.samuelrogenes.clinicmanagement.entities.UsuarioEntity;
 import com.samuelrogenes.clinicmanagement.exceptions.ResourceAlreadyExistsException;
 import com.samuelrogenes.clinicmanagement.exceptions.ResourceNotFoundException;

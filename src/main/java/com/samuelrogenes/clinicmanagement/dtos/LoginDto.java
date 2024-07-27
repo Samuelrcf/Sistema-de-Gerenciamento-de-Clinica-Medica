@@ -1,4 +1,4 @@
-package com.samuelrogenes.clinicmanagement.dtos.usuario;
+package com.samuelrogenes.clinicmanagement.dtos;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;

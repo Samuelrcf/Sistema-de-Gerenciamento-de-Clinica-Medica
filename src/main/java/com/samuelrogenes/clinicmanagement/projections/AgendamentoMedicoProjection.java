@@ -1,4 +1,4 @@
-package com.samuelrogenes.clinicmanagement.dtos.agendamento;
+package com.samuelrogenes.clinicmanagement.projections;
 
 import java.time.LocalDate;
 import java.time.LocalTime;

@@ -1,4 +1,4 @@
-package com.samuelrogenes.clinicmanagement.dtos.error;
+package com.samuelrogenes.clinicmanagement.dtos;
 
 import java.time.LocalDateTime;
 import java.util.Map;

@@ -2,9 +2,9 @@ package com.samuelrogenes.clinicmanagement.services;
 
 import org.springframework.data.domain.Page;
 
-import com.samuelrogenes.clinicmanagement.dtos.paciente.PacienteDto;
-import com.samuelrogenes.clinicmanagement.dtos.paciente.PacienteProjection;
+import com.samuelrogenes.clinicmanagement.dtos.PacienteDto;
 import com.samuelrogenes.clinicmanagement.entities.PacienteEntity;
+import com.samuelrogenes.clinicmanagement.projections.PacienteProjection;
 
 public interface IPacienteService {
 

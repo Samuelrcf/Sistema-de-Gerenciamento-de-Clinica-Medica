@@ -13,9 +13,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.samuelrogenes.clinicmanagement.dtos.medico.MedicoDto;
-import com.samuelrogenes.clinicmanagement.dtos.medico.MedicoProjection;
+import com.samuelrogenes.clinicmanagement.dtos.MedicoDto;
 import com.samuelrogenes.clinicmanagement.entities.MedicoEntity;
+import com.samuelrogenes.clinicmanagement.projections.MedicoProjection;
 import com.samuelrogenes.clinicmanagement.services.IMedicoService;
 
 import jakarta.validation.Valid;

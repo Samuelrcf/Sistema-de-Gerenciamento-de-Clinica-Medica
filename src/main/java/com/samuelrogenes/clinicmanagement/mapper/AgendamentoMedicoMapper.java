@@ -1,6 +1,6 @@
 package com.samuelrogenes.clinicmanagement.mapper;
 
-import com.samuelrogenes.clinicmanagement.dtos.agendamento.AgendamentoMedicoDto;
+import com.samuelrogenes.clinicmanagement.dtos.AgendamentoMedicoDto;
 import com.samuelrogenes.clinicmanagement.entities.AgendamentoMedicoEntity;
 import com.samuelrogenes.clinicmanagement.entities.MedicoEntity;
 import com.samuelrogenes.clinicmanagement.entities.PacienteEntity;

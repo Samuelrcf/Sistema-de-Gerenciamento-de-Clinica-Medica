@@ -1,6 +1,6 @@
 package com.samuelrogenes.clinicmanagement.mapper;
 
-import com.samuelrogenes.clinicmanagement.dtos.usuario.CadastroDto;
+import com.samuelrogenes.clinicmanagement.dtos.CadastroDto;
 import com.samuelrogenes.clinicmanagement.entities.UsuarioEntity;
 
 public class CadastroMapper {

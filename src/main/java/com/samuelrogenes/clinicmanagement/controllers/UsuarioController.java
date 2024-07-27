@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.samuelrogenes.clinicmanagement.dtos.usuario.CadastroDto;
-import com.samuelrogenes.clinicmanagement.dtos.usuario.LoginDto;
+import com.samuelrogenes.clinicmanagement.dtos.CadastroDto;
+import com.samuelrogenes.clinicmanagement.dtos.LoginDto;
 import com.samuelrogenes.clinicmanagement.entities.UsuarioEntity;
 import com.samuelrogenes.clinicmanagement.services.IUsuarioService;
 

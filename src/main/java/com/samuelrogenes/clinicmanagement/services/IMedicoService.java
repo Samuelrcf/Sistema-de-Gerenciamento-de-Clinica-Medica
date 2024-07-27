@@ -2,9 +2,9 @@ package com.samuelrogenes.clinicmanagement.services;
 
 import org.springframework.data.domain.Page;
 
-import com.samuelrogenes.clinicmanagement.dtos.medico.MedicoDto;
-import com.samuelrogenes.clinicmanagement.dtos.medico.MedicoProjection;
+import com.samuelrogenes.clinicmanagement.dtos.MedicoDto;
 import com.samuelrogenes.clinicmanagement.entities.MedicoEntity;
+import com.samuelrogenes.clinicmanagement.projections.MedicoProjection;
 
 public interface IMedicoService {
 

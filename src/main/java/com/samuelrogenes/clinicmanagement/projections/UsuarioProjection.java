@@ -1,4 +1,4 @@
-package com.samuelrogenes.clinicmanagement.dtos.usuario;
+package com.samuelrogenes.clinicmanagement.projections;
 
 public interface UsuarioProjection {
     Long getId();

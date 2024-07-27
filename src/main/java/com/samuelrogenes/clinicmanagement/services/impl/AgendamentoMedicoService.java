@@ -8,14 +8,14 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import com.samuelrogenes.clinicmanagement.dtos.agendamento.AgendamentoMedicoDto;
-import com.samuelrogenes.clinicmanagement.dtos.agendamento.AgendamentoMedicoProjection;
+import com.samuelrogenes.clinicmanagement.dtos.AgendamentoMedicoDto;
 import com.samuelrogenes.clinicmanagement.entities.AgendamentoMedicoEntity;
 import com.samuelrogenes.clinicmanagement.entities.MedicoEntity;
 import com.samuelrogenes.clinicmanagement.entities.PacienteEntity;
 import com.samuelrogenes.clinicmanagement.exceptions.ConflictException;
 import com.samuelrogenes.clinicmanagement.exceptions.ResourceNotFoundException;
 import com.samuelrogenes.clinicmanagement.mapper.AgendamentoMedicoMapper;
+import com.samuelrogenes.clinicmanagement.projections.AgendamentoMedicoProjection;
 import com.samuelrogenes.clinicmanagement.repositories.AgendamentoMedicoRepository;
 import com.samuelrogenes.clinicmanagement.repositories.MedicoRepository;
 import com.samuelrogenes.clinicmanagement.repositories.PacienteRepository;

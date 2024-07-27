@@ -11,8 +11,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import com.samuelrogenes.clinicmanagement.dtos.agendamento.AgendamentoMedicoProjection;
 import com.samuelrogenes.clinicmanagement.entities.AgendamentoMedicoEntity;
+import com.samuelrogenes.clinicmanagement.projections.AgendamentoMedicoProjection;
 
 public interface AgendamentoMedicoRepository extends JpaRepository<AgendamentoMedicoEntity, Long> {
 

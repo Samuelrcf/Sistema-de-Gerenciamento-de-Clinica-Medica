@@ -1,4 +1,4 @@
-package com.samuelrogenes.clinicmanagement.dtos.paciente;
+package com.samuelrogenes.clinicmanagement.dtos;
 
 import java.time.LocalDate;
 

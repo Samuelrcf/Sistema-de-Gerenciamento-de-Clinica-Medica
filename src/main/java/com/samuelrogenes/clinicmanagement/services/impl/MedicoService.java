@@ -7,12 +7,12 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import com.samuelrogenes.clinicmanagement.dtos.medico.MedicoDto;
-import com.samuelrogenes.clinicmanagement.dtos.medico.MedicoProjection;
+import com.samuelrogenes.clinicmanagement.dtos.MedicoDto;
 import com.samuelrogenes.clinicmanagement.entities.MedicoEntity;
 import com.samuelrogenes.clinicmanagement.exceptions.ResourceAlreadyExistsException;
 import com.samuelrogenes.clinicmanagement.exceptions.ResourceNotFoundException;
 import com.samuelrogenes.clinicmanagement.mapper.MedicoMapper;
+import com.samuelrogenes.clinicmanagement.projections.MedicoProjection;
 import com.samuelrogenes.clinicmanagement.repositories.MedicoRepository;
 import com.samuelrogenes.clinicmanagement.services.IMedicoService;
 
