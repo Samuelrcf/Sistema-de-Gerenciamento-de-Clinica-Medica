@@ -55,11 +55,7 @@ public class UsuarioService implements IUsuarioService{
 
     @Override
     public UsuarioEntity cadastrar(CadastroDto cadastroDto) {
-        // Log input data
-        System.out.println("CadastroDTO: " + cadastroDto);
-
         if (usuarioRepository.findByNome(cadastroDto.getNome()) != null) {
-            System.out.println("Nome já está em uso: " + cadastroDto.getNome());
             throw new ResourceAlreadyExistsException(
                     "Não é possível cadastrar o nome " + cadastroDto.getNome() + " porque ele já está em uso.");
         }
@@ -96,7 +92,7 @@ public class UsuarioService implements IUsuarioService{
     @Override
     public boolean verificarCodigo(String email, String codigo) {
     	UsuarioEntity usuario = usuarioRepository.findByEmail(email).orElseThrow(() -> new ResourceNotFoundException("Usuário com e-mail " + email + " não encontrado"));
-        if (usuario == null || !usuario.getCodigo().equals(codigo)) {
+        if (!usuario.getCodigo().equals(codigo)) {
             return false;
         }
         usuario.setCodigo(null);
@@ -107,9 +103,6 @@ public class UsuarioService implements IUsuarioService{
     @Override
     public void alterarSenha(String email, String novaSenha) {
         UsuarioEntity usuario = usuarioRepository.findByEmail(email).orElseThrow(() -> new ResourceNotFoundException("Usuário com e-mail " + email + " não encontrado"));
-        if (usuario == null) {
-            throw new ResourceNotFoundException("Usuário com e-mail " + email + " não encontrado");
-        }
         
         String senhaCodificada = passwordEncoder.encode(novaSenha);
         usuario.setSenha(senhaCodificada);
