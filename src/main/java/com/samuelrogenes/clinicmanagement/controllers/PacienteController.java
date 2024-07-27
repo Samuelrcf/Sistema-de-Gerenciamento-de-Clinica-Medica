@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.samuelrogenes.clinicmanagement.dtos.paciente.PacienteDto;
 import com.samuelrogenes.clinicmanagement.dtos.paciente.PacienteProjection;
+import com.samuelrogenes.clinicmanagement.entities.PacienteEntity;
 import com.samuelrogenes.clinicmanagement.services.IPacienteService;
 
 import jakarta.validation.Valid;
@@ -30,8 +31,8 @@ public class PacienteController {
 	private IPacienteService pacienteService;
 
 	@PostMapping
-	public ResponseEntity<PacienteProjection> createPaciente(@Valid @RequestBody PacienteDto pacienteDto) {
-		PacienteProjection paciente = pacienteService.create(pacienteDto);
+	public ResponseEntity<PacienteEntity> createPaciente(@Valid @RequestBody PacienteDto pacienteDto) {
+		PacienteEntity paciente = pacienteService.create(pacienteDto);
 		return new ResponseEntity<>(paciente, HttpStatus.CREATED);
 	}
 
@@ -49,9 +50,9 @@ public class PacienteController {
 	}
 
 	@PutMapping("/{id}")
-	public ResponseEntity<PacienteProjection> updatePaciente(@PathVariable Long id,
+	public ResponseEntity<PacienteEntity> updatePaciente(@PathVariable Long id,
 			@Valid @RequestBody PacienteDto pacienteDto) {
-		PacienteProjection paciente = pacienteService.update(id, pacienteDto);
+		PacienteEntity paciente = pacienteService.update(id, pacienteDto);
 		return new ResponseEntity<>(paciente, HttpStatus.OK);
 	}
 

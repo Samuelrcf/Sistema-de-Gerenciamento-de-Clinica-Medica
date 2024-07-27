@@ -15,22 +15,23 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.samuelrogenes.clinicmanagement.dtos.medico.MedicoDto;
 import com.samuelrogenes.clinicmanagement.dtos.medico.MedicoProjection;
+import com.samuelrogenes.clinicmanagement.entities.MedicoEntity;
 import com.samuelrogenes.clinicmanagement.services.IMedicoService;
 
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 
-@AllArgsConstructor
 @RestController
 @RequestMapping("/api/medicos")
+@AllArgsConstructor
 public class MedicoController {
 
-	private final IMedicoService medicoService; // como só tem 1 implementação, ele vai pegar ela
+	private final IMedicoService medicoService;
 
 	@PostMapping
-	public ResponseEntity<MedicoProjection> create(@Valid @RequestBody MedicoDto medicoDto) {
-		MedicoProjection medicoCriado = medicoService.create(medicoDto);
-		return new ResponseEntity<>(medicoCriado, HttpStatus.CREATED);
+	public ResponseEntity<MedicoEntity> create(@Valid @RequestBody MedicoDto medicoDto) {
+	    MedicoEntity medicoCriado = medicoService.create(medicoDto);
+	    return new ResponseEntity<>(medicoCriado, HttpStatus.CREATED);
 	}
 
 	@GetMapping("/{id}")
@@ -47,8 +48,8 @@ public class MedicoController {
 	}
 
 	@PutMapping("/{id}")
-	public ResponseEntity<MedicoProjection> update(@PathVariable Long id, @Valid @RequestBody MedicoDto medicoDto) {
-		MedicoProjection medicoAtualizado = medicoService.update(id, medicoDto);
+	public ResponseEntity<MedicoEntity> update(@PathVariable Long id, @Valid @RequestBody MedicoDto medicoDto) {
+		MedicoEntity medicoAtualizado = medicoService.update(id, medicoDto);
 		return ResponseEntity.ok(medicoAtualizado);
 	}
 
