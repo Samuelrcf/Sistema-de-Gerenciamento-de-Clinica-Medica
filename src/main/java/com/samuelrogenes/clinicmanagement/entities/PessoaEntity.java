@@ -1,5 +1,7 @@
 package com.samuelrogenes.clinicmanagement.entities;
 
+import java.io.Serializable;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -17,7 +19,9 @@ import lombok.ToString;
 @Setter
 @Getter
 @ToString
-public class PessoaEntity {
+public class PessoaEntity implements Serializable{
+
+	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
