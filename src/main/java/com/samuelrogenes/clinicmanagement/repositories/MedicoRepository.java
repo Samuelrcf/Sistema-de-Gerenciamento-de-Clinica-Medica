@@ -19,11 +19,11 @@ public interface MedicoRepository extends JpaRepository<MedicoEntity, Long> {
 			@Param("cpf") String cpf);
 
 	@Query("SELECT m.id AS id, m.nomeCompleto AS nomeCompleto, m.cpf AS cpf, m.conselhoMedico AS conselhoMedico, "
-			+ "m.numeroDoConselho AS numeroDoConselho, m.CBO AS cbo FROM MedicoEntity m WHERE m.id = :id")
+			+ "m.numeroDoConselho AS numeroDoConselho, m.CBO AS CBO FROM MedicoEntity m WHERE m.id = :id")
 	Optional<MedicoProjection> findMedicoById(@Param("id") Long id);
 
 	@Query("SELECT m.id AS id, m.nomeCompleto AS nomeCompleto, m.cpf AS cpf, m.conselhoMedico AS conselhoMedico, "
-			+ "m.numeroDoConselho AS numeroDoConselho, m.CBO AS cbo FROM MedicoEntity m")
+			+ "m.numeroDoConselho AS numeroDoConselho, m.CBO AS CBO FROM MedicoEntity m")
 	Page<MedicoProjection> findAllMedicos(Pageable pageable);
 
 }
