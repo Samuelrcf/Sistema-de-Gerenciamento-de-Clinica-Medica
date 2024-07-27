@@ -17,7 +17,7 @@ public class PacienteMapper {
         pacienteEntity.setTelefone(pacienteDto.getTelefone());
         pacienteEntity.setEmail(pacienteDto.getEmail());
         pacienteEntity.setDataDeNascimento(pacienteDto.getDataDeNascimento());
-        pacienteEntity.setRG(pacienteDto.getRG());
+        pacienteEntity.setRG(pacienteDto.getRg());
         pacienteEntity.setOrgaoEmissor(pacienteDto.getOrgaoEmissor());
         pacienteEntity.setObservacoes(pacienteDto.getObservacoes());
         return pacienteEntity;

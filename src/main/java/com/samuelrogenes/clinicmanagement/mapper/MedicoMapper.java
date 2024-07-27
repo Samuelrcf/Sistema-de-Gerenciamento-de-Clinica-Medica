@@ -7,7 +7,7 @@ public class MedicoMapper {
 
 	public static MedicoEntity mapperToMedicoEntity(MedicoEntity medicoEntity, MedicoDto medicoDto) {
 		medicoEntity.setBairro(medicoDto.getBairro());
-		medicoEntity.setCBO(medicoDto.getCBO());
+		medicoEntity.setCBO(medicoDto.getCbo());
 		medicoEntity.setCep(medicoDto.getCep());
 		medicoEntity.setCidade(medicoDto.getCidade());
 		medicoEntity.setConselhoMedico(medicoDto.getConselhoMedico());
@@ -18,7 +18,7 @@ public class MedicoMapper {
 		medicoEntity.setNumeroDoConselho(medicoDto.getNumeroDoConselho());
 		medicoEntity.setTelefone(medicoDto.getTelefone());
 		medicoEntity.setUf(medicoDto.getUf());
-		medicoEntity.setUFConselho(medicoDto.getUFConselho());
+		medicoEntity.setUFConselho(medicoDto.getUfConselho());
 		return medicoEntity;
 	}
 	
