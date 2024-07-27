@@ -14,16 +14,16 @@ import com.samuelrogenes.clinicmanagement.entities.PacienteEntity;
 
 public interface PacienteRepository extends JpaRepository<PacienteEntity, Long> {
 
-    @Query("SELECT p FROM PacienteEntity p WHERE p.email = :email OR p.telefone = :telefone OR p.cpf = :cpf OR p.rg = :rg")
-    List<PacienteEntity> findConflictingPaciente(@Param("email") String email, @Param("telefone") String telefone, @Param("cpf") String cpf, @Param("rg") String rg);
+	@Query("SELECT p FROM PacienteEntity p WHERE p.email = :email OR p.telefone = :telefone OR p.cpf = :cpf OR p.RG = :rg")
+	List<PacienteEntity> findConflictingPaciente(@Param("email") String email, @Param("telefone") String telefone,
+			@Param("cpf") String cpf, @Param("rg") String rg);
 
-    @Query("SELECT p.id AS id, p.nomeCompleto AS nomeCompleto, p.cpf AS cpf, p.sexo AS sexo, p.telefone AS telefone, "
-         + "p.dataDeNascimento AS dataDeNascimento, p.observacoes AS observacoes "
-         + "FROM PacienteEntity p WHERE p.id = :id")
-    Optional<PacienteProjection> findPacienteById(@Param("id") Long id);
+	@Query("SELECT p.id AS id, p.nomeCompleto AS nomeCompleto, p.cpf AS cpf, p.sexo AS sexo, p.telefone AS telefone, "
+			+ "p.dataDeNascimento AS dataDeNascimento, p.observacoes AS observacoes FROM PacienteEntity p WHERE p.id = :id")
+	Optional<PacienteProjection> findPacienteById(@Param("id") Long id);
 
-    @Query("SELECT p.id AS id, p.nomeCompleto AS nomeCompleto, p.cpf AS cpf, p.sexo AS sexo, p.telefone AS telefone, "
-         + "p.dataDeNascimento AS dataDeNascimento, p.observacoes AS observacoes "
-         + "FROM PacienteEntity p")
-    Page<PacienteProjection> findAllPacientes(Pageable pageable);
+	@Query("SELECT p.id AS id, p.nomeCompleto AS nomeCompleto, p.cpf AS cpf, p.sexo AS sexo, p.telefone AS telefone, "
+			+ "p.dataDeNascimento AS dataDeNascimento, p.observacoes AS observacoes FROM PacienteEntity p")
+	Page<PacienteProjection> findAllPacientes(Pageable pageable);
+
 }

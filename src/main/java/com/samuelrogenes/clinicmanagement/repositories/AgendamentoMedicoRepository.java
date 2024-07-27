@@ -14,29 +14,28 @@ import com.samuelrogenes.clinicmanagement.entities.AgendamentoMedicoEntity;
 
 public interface AgendamentoMedicoRepository extends JpaRepository<AgendamentoMedicoEntity, Long> {
 
-    @Query("SELECT a.id AS id, a.medico.id AS medicoId, a.paciente.id AS pacienteId, "
-         + "a.dataDaConsulta AS dataDaConsulta, a.horaDaConsulta AS horaDaConsulta, "
-         + "a.observacoes AS observacoes FROM AgendamentoMedicoEntity a WHERE a.id = :id")
+    @Query("SELECT a.id as id, a.medico.id as medicoId, a.paciente.id as pacienteId, "
+           + "a.dataDaConsulta as dataDaConsulta, a.horaDaConsulta as horaDaConsulta, "
+           + "a.observacoes as observacoes FROM AgendamentoMedicoEntity a WHERE a.id = :id")
     Optional<AgendamentoMedicoProjection> findAgendamentoById(@Param("id") Long id);
 
-    @Query("SELECT a.id AS id, a.medico.id AS medicoId, a.paciente.id AS pacienteId, "
-         + "a.dataDaConsulta AS dataDaConsulta, a.horaDaConsulta AS horaDaConsulta, "
-         + "a.observacoes AS observacoes FROM AgendamentoMedicoEntity a")
+    @Query("SELECT a.id as id, a.medico.id as medicoId, a.paciente.id as pacienteId, "
+           + "a.dataDaConsulta as dataDaConsulta, a.horaDaConsulta as horaDaConsulta, "
+           + "a.observacoes as observacoes FROM AgendamentoMedicoEntity a")
     Page<AgendamentoMedicoProjection> findAllAgendamentos(Pageable pageable);
 
     @Query("SELECT a FROM AgendamentoMedicoEntity a WHERE a.medico.id = :medicoId "
-         + "AND (a.dataDaConsulta = :inicioConsulta OR a.dataDaConsulta = :fimConsulta)")
-    Optional<AgendamentoMedicoEntity> findAgendamentosByMedicoAndHorario(
-            @Param("medicoId") Long medicoId,
-            @Param("inicioConsulta") LocalDateTime inicioConsulta,
-            @Param("fimConsulta") LocalDateTime fimConsulta);
+           + "AND (a.dataDaConsulta = :inicioConsulta OR a.dataDaConsulta = :fimConsulta)")
+    Optional<AgendamentoMedicoEntity> findAgendamentosByMedicoAndHorario(@Param("medicoId") Long medicoId,
+                                                                          @Param("inicioConsulta") LocalDateTime inicioConsulta, 
+                                                                          @Param("fimConsulta") LocalDateTime fimConsulta);
 
     @Query("SELECT a FROM AgendamentoMedicoEntity a WHERE a.medico.id = :medicoId "
-         + "AND (a.dataDaConsulta BETWEEN :inicioConsulta AND :fimConsulta) "
-         + "AND a.id <> :id")
-    Optional<AgendamentoMedicoEntity> findAgendamentosByMedicoAndHorarioExceptId(
-            @Param("medicoId") Long medicoId,
-            @Param("inicioConsulta") LocalDateTime inicioConsulta,
-            @Param("fimConsulta") LocalDateTime fimConsulta,
-            @Param("id") Long id);
+           + "AND a.dataDaConsulta BETWEEN :inicioConsulta AND :fimConsulta "
+           + "AND a.id <> :id")
+    Optional<AgendamentoMedicoEntity> findAgendamentosByMedicoAndHorarioExceptId(@Param("medicoId") Long medicoId,
+                                                                                 @Param("inicioConsulta") LocalDateTime inicioConsulta, 
+                                                                                 @Param("fimConsulta") LocalDateTime fimConsulta,
+                                                                                 @Param("id") Long id);
+
 }

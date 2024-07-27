@@ -18,13 +18,12 @@ public interface MedicoRepository extends JpaRepository<MedicoEntity, Long> {
 	List<MedicoEntity> findConflictingMedico(@Param("email") String email, @Param("telefone") String telefone,
 			@Param("cpf") String cpf);
 
-	@Query("SELECT m.id AS id, m.nomeCompleto AS nomeCompleto, m.cpf AS cpf, "
-			+ "m.conselhoMedico AS conselhoMedico, m.numeroDoConselho AS numeroDoConselho, m.CBO AS CBO "
-			+ "FROM MedicoEntity m WHERE m.id = :id")
+	@Query("SELECT m.id AS id, m.nomeCompleto AS nomeCompleto, m.cpf AS cpf, m.conselhoMedico AS conselhoMedico, "
+			+ "m.numeroDoConselho AS numeroDoConselho, m.CBO AS cbo FROM MedicoEntity m WHERE m.id = :id")
 	Optional<MedicoProjection> findMedicoById(@Param("id") Long id);
 
-	@Query("SELECT m.id AS id, m.nomeCompleto AS nomeCompleto, m.cpf AS cpf, "
-			+ "m.conselhoMedico AS conselhoMedico, m.numeroDoConselho AS numeroDoConselho, m.CBO AS CBO "
-			+ "FROM MedicoEntity m")
+	@Query("SELECT m.id AS id, m.nomeCompleto AS nomeCompleto, m.cpf AS cpf, m.conselhoMedico AS conselhoMedico, "
+			+ "m.numeroDoConselho AS numeroDoConselho, m.CBO AS cbo FROM MedicoEntity m")
 	Page<MedicoProjection> findAllMedicos(Pageable pageable);
+
 }
