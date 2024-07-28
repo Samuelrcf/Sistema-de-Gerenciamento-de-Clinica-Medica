@@ -53,4 +53,5 @@ public class PessoaEntity implements Serializable{
 	
 	@Column(nullable = false, unique = true)
 	private String email;
+	
 }

@@ -24,7 +24,6 @@ import lombok.AllArgsConstructor;
 public class PacienteService implements IPacienteService {
 
     private PacienteRepository pacienteRepository;
-    private AgendamentoMedicoService agendamentoMedicoService;
 
     @Override
     public PacienteEntity create(PacienteDto pacienteDto) {
@@ -123,7 +122,6 @@ public class PacienteService implements IPacienteService {
     @Override
     public boolean deleteById(Long id) {
         PacienteEntity paciente = pacienteRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Paciente com ID " + id + " não foi encontrado"));
-        agendamentoMedicoService.deletarAgendamentoPorMedico(id);
         pacienteRepository.delete(paciente);
         return true;
     }

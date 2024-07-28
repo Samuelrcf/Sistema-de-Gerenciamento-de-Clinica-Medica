@@ -8,14 +8,11 @@ import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import com.samuelrogenes.clinicmanagement.entities.AgendamentoMedicoEntity;
 import com.samuelrogenes.clinicmanagement.projections.AgendamentoMedicoProjection;
-
-import jakarta.transaction.Transactional;
 
 public interface AgendamentoMedicoRepository extends JpaRepository<AgendamentoMedicoEntity, Long> {
 
@@ -45,15 +42,5 @@ public interface AgendamentoMedicoRepository extends JpaRepository<AgendamentoMe
 	List<AgendamentoMedicoEntity> findAgendamentosByHorarioExceptId(@Param("dataConsulta") LocalDate dataConsulta,
 			@Param("inicioHoraMin") LocalTime inicioHoraMin, @Param("fimHoraMax") LocalTime fimHoraMax,
 			@Param("inicioHoraMax") LocalTime inicioHoraMax, @Param("id") Long id);
-
-	@Modifying
-	@Transactional
-	@Query("DELETE FROM AgendamentoMedicoEntity a WHERE a.paciente.id = :pacienteId")
-	void deleteByPacienteId(@Param("pacienteId") Long pacienteId);
-
-	@Modifying
-	@Transactional
-	@Query("DELETE FROM AgendamentoMedicoEntity a WHERE a.medico.id = :medicoId")
-	void deleteByMedicoId(@Param("medicoId") Long medicoId);
 
 }

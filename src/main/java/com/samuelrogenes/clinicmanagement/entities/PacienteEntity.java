@@ -1,9 +1,14 @@
 package com.samuelrogenes.clinicmanagement.entities;
 
 import java.time.LocalDate;
+import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -35,4 +40,8 @@ public class PacienteEntity extends PessoaEntity {
 	private String orgaoEmissor;
 	
 	private String observacoes;
+	
+	@JsonIgnore
+	@OneToMany(mappedBy = "paciente", cascade = CascadeType.REMOVE)
+	private Set<AgendamentoMedicoEntity> agendamentoMedicoEntity;
 }

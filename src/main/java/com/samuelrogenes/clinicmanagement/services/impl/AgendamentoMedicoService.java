@@ -109,15 +109,5 @@ public class AgendamentoMedicoService implements IAgendamentoMedicoService {
             throw new ConflictException("Já existe um agendamento para esse horário.");
         }
     }
-    
-    @Override
-    public void deletarAgendamentoPorPaciente(Long pacienteId) {
-        agendamentoMedicoRepository.deleteByPacienteId(pacienteId);
-    }
-
-    @Override
-    public void deletarAgendamentoPorMedico(Long medicoId) {
-    	agendamentoMedicoRepository.deleteByMedicoId(medicoId);
-    }
 
 }
