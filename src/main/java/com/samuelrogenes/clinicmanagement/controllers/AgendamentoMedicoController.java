@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.samuelrogenes.clinicmanagement.dtos.AgendamentoMedicoDto;
 import com.samuelrogenes.clinicmanagement.dtos.ErrorResponseDto;
-import com.samuelrogenes.clinicmanagement.entities.AgendamentoMedicoEntity;
 import com.samuelrogenes.clinicmanagement.projections.AgendamentoMedicoProjection;
 import com.samuelrogenes.clinicmanagement.services.IAgendamentoMedicoService;
 
@@ -59,8 +58,8 @@ public class AgendamentoMedicoController {
             )
     })
     @PostMapping
-    public ResponseEntity<AgendamentoMedicoEntity> createAgendamento(@Valid @RequestBody AgendamentoMedicoDto agendamentoMedicoDto) {
-        AgendamentoMedicoEntity agendamento = agendamentoService.create(agendamentoMedicoDto);
+    public ResponseEntity<AgendamentoMedicoDto> createAgendamento(@Valid @RequestBody AgendamentoMedicoDto agendamentoMedicoDto) {
+    	AgendamentoMedicoDto agendamento = agendamentoService.create(agendamentoMedicoDto);
         return new ResponseEntity<>(agendamento, HttpStatus.CREATED);
     }
 
@@ -144,8 +143,8 @@ public class AgendamentoMedicoController {
             )
     })
     @PutMapping("/{id}")
-    public ResponseEntity<AgendamentoMedicoEntity> updateAgendamento(@PathVariable Long id, @Valid @RequestBody AgendamentoMedicoDto agendamentoMedicoDto) {
-        AgendamentoMedicoEntity agendamento = agendamentoService.update(id, agendamentoMedicoDto);
+    public ResponseEntity<AgendamentoMedicoDto> updateAgendamento(@PathVariable Long id, @Valid @RequestBody AgendamentoMedicoDto agendamentoMedicoDto) {
+    	AgendamentoMedicoDto agendamento = agendamentoService.update(id, agendamentoMedicoDto);
         return new ResponseEntity<>(agendamento, HttpStatus.OK);
     }
 

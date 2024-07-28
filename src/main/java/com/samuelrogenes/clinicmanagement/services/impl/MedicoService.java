@@ -26,35 +26,37 @@ public class MedicoService implements IMedicoService {
 	private MedicoRepository medicoRepository;
 
 	@Override
-	public MedicoEntity create(MedicoDto medicoDto) {
+	public MedicoDto create(MedicoDto medicoDto) {
 
-		List<MedicoEntity> conflictingMedicos = medicoRepository.findConflictingMedico(medicoDto.getEmail(),
-				medicoDto.getTelefone(), medicoDto.getCpf());
+	    List<MedicoEntity> conflictingMedicos = medicoRepository.findConflictingMedico(medicoDto.getEmail(),
+	            medicoDto.getTelefone(), medicoDto.getCpf());
 
-		StringBuilder errorMessage = new StringBuilder("Conflito de dados:");
+	    StringBuilder errorMessage = new StringBuilder("Conflito de dados:");
 
-		for (MedicoEntity medico : conflictingMedicos) {
-			if (medico.getEmail().equals(medicoDto.getEmail())) {
-				errorMessage.append(" Email " + medicoDto.getEmail() + " já cadastrado.");
-			}
-			if (medico.getTelefone().equals(medicoDto.getTelefone())) {
-				errorMessage.append(" Telefone " + medicoDto.getTelefone() + " já cadastrado.");
-			}
-			if (medico.getCpf().equals(medicoDto.getCpf())) {
-				errorMessage.append(" CPF " + medicoDto.getCpf() + " já cadastrado.");
-			}
-		}
+	    for (MedicoEntity medico : conflictingMedicos) {
+	        if (medico.getEmail().equals(medicoDto.getEmail())) {
+	            errorMessage.append(" Email " + medico.getEmail() + " já cadastrado.");
+	        }
+	        if (medico.getTelefone().equals(medicoDto.getTelefone())) {
+	            errorMessage.append(" Telefone " + medico.getTelefone() + " já cadastrado.");
+	        }
+	        if (medico.getCpf().equals(medicoDto.getCpf())) {
+	            errorMessage.append(" CPF " + medico.getCpf() + " já cadastrado.");
+	        }
+	    }
 
-		if (errorMessage.length() > "Conflito de dados:".length()) {
-			throw new ResourceAlreadyExistsException(errorMessage.toString());
-		}
+	    if (errorMessage.length() > "Conflito de dados:".length()) {
+	        throw new ResourceAlreadyExistsException(errorMessage.toString());
+	    }
 
-		MedicoEntity medicoMapeado = MedicoMapper.mapperToMedicoEntity(new MedicoEntity(), medicoDto);
-		MedicoEntity medicoSalvo = medicoRepository.save(medicoMapeado);
+	    MedicoEntity medicoMapeado = MedicoMapper.mapperToMedicoEntity(new MedicoEntity(), medicoDto);
+	    MedicoEntity medicoSalvo = medicoRepository.save(medicoMapeado);
 
-		return medicoRepository.findById(medicoSalvo.getId()).orElseThrow(
-				() -> new ResourceNotFoundException("Médico com ID " + medicoSalvo.getId() + " não encontrado"));
+	    return MedicoMapper.mapperToMedicoDto(medicoRepository.findById(medicoSalvo.getId())
+	                    .orElseThrow(() -> new ResourceNotFoundException("Médico com ID " + medicoSalvo.getId() + " não encontrado"))
+	    );
 	}
+
 	
 	@Override
 	public MedicoEntity findById(Long id) {
@@ -76,7 +78,7 @@ public class MedicoService implements IMedicoService {
 	}
 
 	@Override
-	public MedicoEntity update(Long id, MedicoDto medicoDto) {
+	public MedicoDto update(Long id, MedicoDto medicoDto) {
 	    MedicoEntity medicoExistente = medicoRepository.findById(id)
 	            .orElseThrow(() -> new ResourceNotFoundException("Médico com ID " + id + " não foi encontrado"));
 
@@ -109,9 +111,11 @@ public class MedicoService implements IMedicoService {
 	    MedicoMapper.mapperToMedicoEntity(medicoExistente, medicoDto);
 	    MedicoEntity medicoSalvo = medicoRepository.save(medicoExistente);
 
-	    return medicoRepository.findById(medicoSalvo.getId())
-	            .orElseThrow(() -> new ResourceNotFoundException("Médico com ID " + medicoSalvo.getId() + " não encontrado"));
+	    return MedicoMapper.mapperToMedicoDto(medicoRepository.findById(medicoSalvo.getId())
+	                    .orElseThrow(() -> new ResourceNotFoundException("Médico com ID " + medicoSalvo.getId() + " não encontrado"))
+	    );
 	}
+
 
 
 	@Transactional

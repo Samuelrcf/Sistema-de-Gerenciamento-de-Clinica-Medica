@@ -22,4 +22,23 @@ public class PacienteMapper {
         pacienteEntity.setObservacoes(pacienteDto.getObservacoes());
         return pacienteEntity;
     }
+    
+    public static PacienteDto mapperToPacienteDto(PacienteEntity pacienteEntity) {
+        PacienteDto pacienteDto = new PacienteDto();
+        pacienteDto.setNomeCompleto(pacienteEntity.getNomeCompleto());
+        pacienteDto.setCpf(pacienteEntity.getCpf());
+        pacienteDto.setSexo(pacienteEntity.getSexo());
+        pacienteDto.setLogradouro(pacienteEntity.getLogradouro());
+        pacienteDto.setBairro(pacienteEntity.getBairro());
+        pacienteDto.setCidade(pacienteEntity.getCidade());
+        pacienteDto.setUf(pacienteEntity.getUf());
+        pacienteDto.setCep(pacienteEntity.getCep());
+        pacienteDto.setTelefone(pacienteEntity.getTelefone());
+        pacienteDto.setEmail(pacienteEntity.getEmail());
+        pacienteDto.setDataDeNascimento(pacienteEntity.getDataDeNascimento());
+        pacienteDto.setRg(pacienteEntity.getRG());
+        pacienteDto.setOrgaoEmissor(pacienteEntity.getOrgaoEmissor());
+        pacienteDto.setObservacoes(pacienteEntity.getObservacoes());
+        return pacienteDto;
+    }
 }

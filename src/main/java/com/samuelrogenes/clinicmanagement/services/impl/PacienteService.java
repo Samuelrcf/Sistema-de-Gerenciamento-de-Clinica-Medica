@@ -26,8 +26,7 @@ public class PacienteService implements IPacienteService {
     private PacienteRepository pacienteRepository;
 
     @Override
-    public PacienteEntity create(PacienteDto pacienteDto) {
-
+    public PacienteDto create(PacienteDto pacienteDto) {
         List<PacienteEntity> conflictingPacientes = pacienteRepository.findConflictingPaciente(pacienteDto.getEmail(), pacienteDto.getTelefone(), pacienteDto.getCpf(), pacienteDto.getRg());
 
         StringBuilder errorMessage = new StringBuilder("Conflito de dados:");
@@ -43,7 +42,7 @@ public class PacienteService implements IPacienteService {
                 errorMessage.append(" CPF " + pacienteDto.getCpf() + " já cadastrado.");
             }
             if (paciente.getRG().equals(pacienteDto.getRg())) {
-            	errorMessage.append(" RG " + pacienteDto.getRg() + " já cadastrado.");
+                errorMessage.append(" RG " + pacienteDto.getRg() + " já cadastrado.");
             }
         }
 
@@ -54,7 +53,9 @@ public class PacienteService implements IPacienteService {
         PacienteEntity pacienteMapeado = PacienteMapper.mapperToPacienteEntity(new PacienteEntity(), pacienteDto);
         PacienteEntity pacienteSalvo = pacienteRepository.save(pacienteMapeado);
 
-        return pacienteRepository.findById(pacienteSalvo.getId()).orElseThrow(() -> new ResourceNotFoundException("Paciente com ID " + pacienteSalvo.getId() + " não encontrado"));
+        return PacienteMapper.mapperToPacienteDto(pacienteRepository.findById(pacienteSalvo.getId())
+                        .orElseThrow(() -> new ResourceNotFoundException("Paciente com ID " + pacienteSalvo.getId() + " não encontrado"))
+        );
     }
     
     @Override
@@ -76,7 +77,7 @@ public class PacienteService implements IPacienteService {
     }
 
     @Override
-    public PacienteEntity update(Long id, PacienteDto pacienteDto) {
+    public PacienteDto update(Long id, PacienteDto pacienteDto) {
         PacienteEntity pacienteExistente = pacienteRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Paciente com ID " + id + " não encontrado"));
 
@@ -114,8 +115,10 @@ public class PacienteService implements IPacienteService {
         PacienteMapper.mapperToPacienteEntity(pacienteExistente, pacienteDto);
         PacienteEntity pacienteSalvo = pacienteRepository.save(pacienteExistente);
 
-        return pacienteRepository.findById(pacienteSalvo.getId())
-                .orElseThrow(() -> new ResourceNotFoundException("Paciente com ID " + pacienteSalvo.getId() + " não encontrado"));
+        return PacienteMapper.mapperToPacienteDto(
+                pacienteRepository.findById(pacienteSalvo.getId())
+                        .orElseThrow(() -> new ResourceNotFoundException("Paciente com ID " + pacienteSalvo.getId() + " não encontrado"))
+        );
     }
 
     @Transactional

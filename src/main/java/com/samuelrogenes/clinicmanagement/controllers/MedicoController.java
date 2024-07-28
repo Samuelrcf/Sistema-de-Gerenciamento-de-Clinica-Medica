@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.samuelrogenes.clinicmanagement.dtos.ErrorResponseDto;
 import com.samuelrogenes.clinicmanagement.dtos.MedicoDto;
-import com.samuelrogenes.clinicmanagement.entities.MedicoEntity;
 import com.samuelrogenes.clinicmanagement.projections.MedicoProjection;
 import com.samuelrogenes.clinicmanagement.services.IMedicoService;
 
@@ -57,8 +56,8 @@ public class MedicoController {
             )
     })
     @PostMapping
-    public ResponseEntity<MedicoEntity> create(@Valid @RequestBody MedicoDto medicoDto) {
-        MedicoEntity medicoCriado = medicoService.create(medicoDto);
+    public ResponseEntity<MedicoDto> create(@Valid @RequestBody MedicoDto medicoDto) {
+    	MedicoDto medicoCriado = medicoService.create(medicoDto);
         return new ResponseEntity<>(medicoCriado, HttpStatus.CREATED);
     }
 
@@ -141,8 +140,8 @@ public class MedicoController {
             )
     })
     @PutMapping("/{id}")
-    public ResponseEntity<MedicoEntity> update(@PathVariable Long id, @Valid @RequestBody MedicoDto medicoDto) {
-        MedicoEntity medicoAtualizado = medicoService.update(id, medicoDto);
+    public ResponseEntity<MedicoDto> update(@PathVariable Long id, @Valid @RequestBody MedicoDto medicoDto) {
+    	MedicoDto medicoAtualizado = medicoService.update(id, medicoDto);
         return ResponseEntity.ok(medicoAtualizado);
     }
 

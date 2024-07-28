@@ -30,18 +30,19 @@ public class AgendamentoMedicoService implements IAgendamentoMedicoService {
     private PacienteService pacienteService;
 
     @Override
-    public AgendamentoMedicoEntity create(AgendamentoMedicoDto agendamentoDto) {
+    public AgendamentoMedicoDto create(AgendamentoMedicoDto agendamentoDto) {
         MedicoEntity medico = medicoService.findById(agendamentoDto.getMedicoId());
-
         PacienteEntity paciente = pacienteService.findById(agendamentoDto.getPacienteId());
 
         validateHorario(agendamentoDto.getDataDaConsulta(), agendamentoDto.getHoraDaConsulta(), null);
 
-        AgendamentoMedicoEntity agendamento = AgendamentoMedicoMapper.mapperToAgendamentoMedicoEntity(new AgendamentoMedicoEntity(), agendamentoDto, medico, paciente);
+        AgendamentoMedicoEntity agendamento = AgendamentoMedicoMapper.mapperToAgendamentoMedicoEntity(
+                new AgendamentoMedicoEntity(), agendamentoDto, medico, paciente);
         AgendamentoMedicoEntity agendamentoSalvo = agendamentoMedicoRepository.save(agendamento);
 
-        return agendamentoMedicoRepository.findById(agendamentoSalvo.getId())
-                .orElseThrow(() -> new ResourceNotFoundException("Agendamento com ID " + agendamentoSalvo.getId() + " não encontrado"));
+        return AgendamentoMedicoMapper.mapperToAgendamentoMedicoDto(agendamentoMedicoRepository.findById(agendamentoSalvo.getId())
+                        .orElseThrow(() -> new ResourceNotFoundException("Agendamento com ID " + agendamentoSalvo.getId() + " não encontrado"))
+        );
     }
 
     @Override
@@ -57,12 +58,11 @@ public class AgendamentoMedicoService implements IAgendamentoMedicoService {
     }
 
     @Override
-    public AgendamentoMedicoEntity update(Long id, AgendamentoMedicoDto agendamentoDto) {
+    public AgendamentoMedicoDto update(Long id, AgendamentoMedicoDto agendamentoDto) {
         AgendamentoMedicoEntity agendamento = agendamentoMedicoRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Agendamento com ID " + id + " não encontrado"));
 
         MedicoEntity medico = medicoService.findById(agendamentoDto.getMedicoId());
-
         PacienteEntity paciente = pacienteService.findById(agendamentoDto.getPacienteId());
 
         validateHorario(agendamentoDto.getDataDaConsulta(), agendamentoDto.getHoraDaConsulta(), id);
@@ -70,8 +70,9 @@ public class AgendamentoMedicoService implements IAgendamentoMedicoService {
         AgendamentoMedicoMapper.mapperToAgendamentoMedicoEntity(agendamento, agendamentoDto, medico, paciente);
         AgendamentoMedicoEntity agendamentoSalvo = agendamentoMedicoRepository.save(agendamento);
 
-        return agendamentoMedicoRepository.findById(agendamentoSalvo.getId())
-                .orElseThrow(() -> new ResourceNotFoundException("Agendamento com ID " + agendamentoSalvo.getId() + " não encontrado"));
+        return AgendamentoMedicoMapper.mapperToAgendamentoMedicoDto(agendamentoMedicoRepository.findById(agendamentoSalvo.getId())
+                        .orElseThrow(() -> new ResourceNotFoundException("Agendamento com ID " + agendamentoSalvo.getId() + " não encontrado"))
+        );
     }
 
     @Override
