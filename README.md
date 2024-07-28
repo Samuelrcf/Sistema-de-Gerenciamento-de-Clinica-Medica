@@ -43,7 +43,7 @@ Este projeto é um sistema para gestão de atendimentos médicos, englobando o c
 
 ## Instalação e Execução
 ### Pré-requisitos
--Java 17+
+- Java 17+
 - Maven
 - Banco de dados PostgreSQL (ou outro configurado no application.properties)
 
