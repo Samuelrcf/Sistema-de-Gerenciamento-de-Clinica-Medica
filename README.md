@@ -48,16 +48,16 @@ Este projeto é um sistema para gestão de atendimentos médicos, englobando o c
 - Banco de dados PostgreSQL (ou outro configurado no application.properties)
 
 ### Passos
-Clone o repositório:
-git clone https://github.com/seu-usuario/clinic-management.git
-cd clinic-management
-Configure o banco de dados em src/main/resources/application.properties.
-Execute o projeto:
-mvn spring-boot:run
+- Clone o repositório:
+- git clone https://github.com/seu-usuario/clinic-management.git
+- cd clinic-management
+- Configure o banco de dados em src/main/resources/application.properties.
+- Execute o projeto:
+- mvn spring-boot:run
 
 ### Testes
-Para executar os testes unitários:
-mvn test
+- Para executar os testes unitários:
+- mvn test
 
 ## Tecnologias Utilizadas
 - Spring Boot
