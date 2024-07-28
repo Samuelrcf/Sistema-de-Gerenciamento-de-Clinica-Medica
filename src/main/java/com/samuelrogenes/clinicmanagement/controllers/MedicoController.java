@@ -36,7 +36,7 @@ public class MedicoController {
 
 	@GetMapping("/{id}")
 	public ResponseEntity<MedicoProjection> findById(@PathVariable Long id) {
-		MedicoProjection medico = medicoService.findById(id);
+		MedicoProjection medico = medicoService.findMedicoById(id);
 		return ResponseEntity.ok(medico);
 	}
 

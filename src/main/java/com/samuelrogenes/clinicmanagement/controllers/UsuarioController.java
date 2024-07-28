@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.samuelrogenes.clinicmanagement.dtos.CadastroDto;
 import com.samuelrogenes.clinicmanagement.dtos.LoginDto;
-import com.samuelrogenes.clinicmanagement.entities.UsuarioEntity;
+import com.samuelrogenes.clinicmanagement.projections.UsuarioProjection;
 import com.samuelrogenes.clinicmanagement.services.IUsuarioService;
 
 import lombok.AllArgsConstructor;
@@ -29,30 +29,30 @@ public class UsuarioController {
     }
     
     @PostMapping("/cadastrar")
-    public ResponseEntity<UsuarioEntity> cadastrar(@RequestBody CadastroDto cadastroDto) {
-        UsuarioEntity usuario = usuarioService.cadastrar(cadastroDto);
+    public ResponseEntity<UsuarioProjection> cadastrar(@RequestBody CadastroDto cadastroDto) {
+    	UsuarioProjection usuario = usuarioService.cadastrar(cadastroDto);
         return new ResponseEntity<>(usuario, HttpStatus.CREATED);
     }
 
     @PostMapping("/solicitar-alteracao-senha")
-    public ResponseEntity<Void> solicitarAlteracaoSenha(@RequestParam String email) {
+    public ResponseEntity<String> solicitarAlteracaoSenha(@RequestParam String email) {
         usuarioService.solicitarAlteracaoSenha(email);
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>("Solicitação de alteração de senha enviada com sucesso.", HttpStatus.OK);
     }
 
     @PostMapping("/verificar-codigo")
-    public ResponseEntity<Void> verificarCodigo(@RequestParam String email, @RequestParam String codigo) {
+    public ResponseEntity<String> verificarCodigo(@RequestParam String email, @RequestParam String codigo) {
         boolean valido = usuarioService.verificarCodigo(email, codigo);
         if (valido) {
-            return new ResponseEntity<>(HttpStatus.OK);
+            return new ResponseEntity<>("Código de verificação válido.", HttpStatus.OK);
         } else {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        	return new ResponseEntity<>("Código de verificação inválido.", HttpStatus.BAD_REQUEST);
         }
     }
 
     @PostMapping("/alterar-senha")
-    public ResponseEntity<Void> alterarSenha(@RequestParam String email, @RequestParam String novaSenha) {
+    public ResponseEntity<String> alterarSenha(@RequestParam String email, @RequestParam String novaSenha) {
         usuarioService.alterarSenha(email, novaSenha);
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>("Senha alterada com sucesso.", HttpStatus.OK);
     }
 }

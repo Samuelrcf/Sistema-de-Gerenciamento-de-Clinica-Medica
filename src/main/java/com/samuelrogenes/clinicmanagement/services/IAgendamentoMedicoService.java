@@ -13,5 +13,7 @@ public interface IAgendamentoMedicoService {
     Page<AgendamentoMedicoProjection> findAll(int page, int size);
     AgendamentoMedicoEntity update(Long id, AgendamentoMedicoDto agendamentoDto);
     boolean deleteById(Long id);
+    void deletarAgendamentoPorPaciente(Long pacienteId);
+    void deletarAgendamentoPorMedico(Long medicoId);
     
 }

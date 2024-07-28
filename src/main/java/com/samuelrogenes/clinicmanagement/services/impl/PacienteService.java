@@ -16,6 +16,7 @@ import com.samuelrogenes.clinicmanagement.projections.PacienteProjection;
 import com.samuelrogenes.clinicmanagement.repositories.PacienteRepository;
 import com.samuelrogenes.clinicmanagement.services.IPacienteService;
 
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 
 @Service
@@ -23,6 +24,7 @@ import lombok.AllArgsConstructor;
 public class PacienteService implements IPacienteService {
 
     private PacienteRepository pacienteRepository;
+    private AgendamentoMedicoService agendamentoMedicoService;
 
     @Override
     public PacienteEntity create(PacienteDto pacienteDto) {
@@ -55,9 +57,15 @@ public class PacienteService implements IPacienteService {
 
         return pacienteRepository.findById(pacienteSalvo.getId()).orElseThrow(() -> new ResourceNotFoundException("Paciente com ID " + pacienteSalvo.getId() + " não encontrado"));
     }
+    
+    @Override
+    public PacienteEntity findById(Long id) {
+    	PacienteEntity paciente = pacienteRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Paciente com ID " + id + " não foi encontrado"));
+    	return paciente;
+    }
 
     @Override
-    public PacienteProjection findById(Long id) {
+    public PacienteProjection findPacienteById(Long id) {
         PacienteProjection paciente = pacienteRepository.findPacienteById(id).orElseThrow(() -> new ResourceNotFoundException("Paciente com ID " + id + " não foi encontrado"));
         return paciente;
     }
@@ -111,9 +119,11 @@ public class PacienteService implements IPacienteService {
                 .orElseThrow(() -> new ResourceNotFoundException("Paciente com ID " + pacienteSalvo.getId() + " não encontrado"));
     }
 
+    @Transactional
     @Override
     public boolean deleteById(Long id) {
         PacienteEntity paciente = pacienteRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Paciente com ID " + id + " não foi encontrado"));
+        agendamentoMedicoService.deletarAgendamentoPorMedico(id);
         pacienteRepository.delete(paciente);
         return true;
     }

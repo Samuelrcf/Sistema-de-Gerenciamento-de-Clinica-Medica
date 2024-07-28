@@ -16,6 +16,7 @@ import com.samuelrogenes.clinicmanagement.projections.MedicoProjection;
 import com.samuelrogenes.clinicmanagement.repositories.MedicoRepository;
 import com.samuelrogenes.clinicmanagement.services.IMedicoService;
 
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 
 @Service
@@ -23,6 +24,7 @@ import lombok.AllArgsConstructor;
 public class MedicoService implements IMedicoService {
 
 	private MedicoRepository medicoRepository;
+	private AgendamentoMedicoService agendamentoMedicoService;
 
 	@Override
 	public MedicoEntity create(MedicoDto medicoDto) {
@@ -54,9 +56,15 @@ public class MedicoService implements IMedicoService {
 		return medicoRepository.findById(medicoSalvo.getId()).orElseThrow(
 				() -> new ResourceNotFoundException("Médico com ID " + medicoSalvo.getId() + " não encontrado"));
 	}
+	
+	@Override
+	public MedicoEntity findById(Long id) {
+		MedicoEntity medico = medicoRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Médico com ID " + id + " não foi encontrado"));
+		return medico;
+	}
 
 	@Override
-	public MedicoProjection findById(Long id) {
+	public MedicoProjection findMedicoById(Long id) {
 		MedicoProjection medico = medicoRepository.findMedicoById(id)
 				.orElseThrow(() -> new ResourceNotFoundException("Médico com ID " + id + " não foi encontrado"));
 		return medico;
@@ -107,10 +115,12 @@ public class MedicoService implements IMedicoService {
 	}
 
 
+	@Transactional
 	@Override
 	public boolean deleteById(Long id) {
 		MedicoEntity medico = medicoRepository.findById(id)
 				.orElseThrow(() -> new ResourceNotFoundException("Médico com ID " + id + " não foi encontrado"));
+		agendamentoMedicoService.deletarAgendamentoPorMedico(id);
 		medicoRepository.delete(medico);
 		return true;
 	}

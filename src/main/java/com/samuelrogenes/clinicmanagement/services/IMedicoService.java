@@ -9,7 +9,8 @@ import com.samuelrogenes.clinicmanagement.projections.MedicoProjection;
 public interface IMedicoService {
 
 	public MedicoEntity create(MedicoDto medicoDto);
-	public MedicoProjection findById(Long id);
+	public MedicoEntity findById(Long id);
+	public MedicoProjection findMedicoById(Long id);
 	public Page<MedicoProjection> findAll(int page, int size);
 	public MedicoEntity update(Long id, MedicoDto medicoDto);
 	public boolean deleteById(Long id);

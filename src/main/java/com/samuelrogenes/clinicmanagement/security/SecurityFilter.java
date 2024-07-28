@@ -3,6 +3,7 @@ package com.samuelrogenes.clinicmanagement.security;
 import java.io.IOException;
 
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
@@ -27,13 +28,13 @@ public class SecurityFilter extends OncePerRequestFilter{
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
 			throws ServletException, IOException {
-		var token = this.recoverToken(request);
+		String token = this.recoverToken(request);
 		if(token != null) {
-			var nome = tokenService.validateToken(token);
+			String nome = tokenService.validateToken(token);
 			System.out.println(nome.toString());
 			UserDetails usuario = userRepository.findByNome(nome);
 			
-			var authentication = new UsernamePasswordAuthenticationToken(usuario, null, usuario.getAuthorities());
+			Authentication authentication = new UsernamePasswordAuthenticationToken(usuario, null, usuario.getAuthorities());
 			SecurityContextHolder.getContext().setAuthentication(authentication);
 		}
 		filterChain.doFilter(request, response);

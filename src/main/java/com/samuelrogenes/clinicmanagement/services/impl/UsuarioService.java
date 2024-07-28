@@ -18,6 +18,7 @@ import com.samuelrogenes.clinicmanagement.entities.UsuarioEntity;
 import com.samuelrogenes.clinicmanagement.exceptions.ResourceAlreadyExistsException;
 import com.samuelrogenes.clinicmanagement.exceptions.ResourceNotFoundException;
 import com.samuelrogenes.clinicmanagement.mapper.CadastroMapper;
+import com.samuelrogenes.clinicmanagement.projections.UsuarioProjection;
 import com.samuelrogenes.clinicmanagement.repositories.UsuarioRepository;
 import com.samuelrogenes.clinicmanagement.services.IUsuarioService;
 
@@ -54,7 +55,7 @@ public class UsuarioService implements IUsuarioService{
 	}
 
     @Override
-    public UsuarioEntity cadastrar(CadastroDto cadastroDto) {
+    public UsuarioProjection cadastrar(CadastroDto cadastroDto) {
         if (usuarioRepository.findByNome(cadastroDto.getNome()) != null) {
             throw new ResourceAlreadyExistsException(
                     "Não é possível cadastrar o nome " + cadastroDto.getNome() + " porque ele já está em uso.");
@@ -73,10 +74,9 @@ public class UsuarioService implements IUsuarioService{
 
         UsuarioEntity usuarioSalvo = usuarioRepository.save(usuarioMapeado);
 
-        return usuarioRepository.findById(usuarioSalvo.getId()).orElseThrow(
+        return usuarioRepository.findUsuarioById(usuarioSalvo.getId()).orElseThrow(
                 () -> new ResourceNotFoundException("Usuário com ID " + usuarioSalvo.getId() + " não encontrado"));
     }
-
 	
     @Override
     public void solicitarAlteracaoSenha(String email) {

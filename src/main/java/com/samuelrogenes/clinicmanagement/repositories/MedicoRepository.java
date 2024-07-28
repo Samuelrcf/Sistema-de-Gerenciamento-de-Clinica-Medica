@@ -13,6 +13,8 @@ import com.samuelrogenes.clinicmanagement.entities.MedicoEntity;
 import com.samuelrogenes.clinicmanagement.projections.MedicoProjection;
 
 public interface MedicoRepository extends JpaRepository<MedicoEntity, Long> {
+	
+	Optional<MedicoEntity> findById(Long id); 
 
 	@Query("SELECT m FROM MedicoEntity m WHERE m.email = :email OR m.telefone = :telefone OR m.cpf = :cpf")
 	List<MedicoEntity> findConflictingMedico(@Param("email") String email, @Param("telefone") String telefone,
