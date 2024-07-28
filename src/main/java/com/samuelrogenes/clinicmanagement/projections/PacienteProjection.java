@@ -3,18 +3,18 @@ package com.samuelrogenes.clinicmanagement.projections;
 import java.time.LocalDate;
 
 public interface PacienteProjection {
-	
-	Long getId();
 
-	String getNomeCompleto();
+    Long getId();
 
-	String getCpf();
+    String getNomeCompleto();
 
-	String getSexo();
+    String getCpf();
 
-	String getTelefone();
+    String getSexo();
 
-	LocalDate getDataDeNascimento();
+    String getTelefone();
 
-	String getObservacoes();
+    LocalDate getDataDeNascimento();
+
+    String getObservacoes();
 }
