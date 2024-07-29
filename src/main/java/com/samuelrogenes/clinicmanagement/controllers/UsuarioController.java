@@ -2,6 +2,7 @@ package com.samuelrogenes.clinicmanagement.controllers;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,6 +21,8 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 
 @Tag(
@@ -29,6 +32,7 @@ import lombok.AllArgsConstructor;
 @RestController
 @RequestMapping("/api/usuarios")
 @AllArgsConstructor
+@Validated
 public class UsuarioController {
 
     private final IUsuarioService usuarioService;
@@ -118,7 +122,7 @@ public class UsuarioController {
         )
     })
     @PostMapping("/solicitar-alteracao-senha")
-    public ResponseEntity<String> solicitarAlteracaoSenha(@RequestParam String email) {
+    public ResponseEntity<String> solicitarAlteracaoSenha(@Email @NotBlank(message = "Email não pode ser em branco") @RequestParam String email) {
         usuarioService.solicitarAlteracaoSenha(email);
         return new ResponseEntity<>("Solicitação de alteração de senha enviada com sucesso.", HttpStatus.OK);
     }
@@ -155,7 +159,7 @@ public class UsuarioController {
         )
     })
     @PostMapping("/verificar-codigo")
-    public ResponseEntity<String> verificarCodigo(@RequestParam String email, @RequestParam String codigo) {
+    public ResponseEntity<String> verificarCodigo(@Email @NotBlank(message = "Email não pode ser em branco") @RequestParam String email, @RequestParam String codigo) {
         boolean valido = usuarioService.verificarCodigo(email, codigo);
         if (valido) {
             return new ResponseEntity<>("Código de verificação válido.", HttpStatus.OK);
@@ -189,7 +193,7 @@ public class UsuarioController {
         )
     })
     @PostMapping("/alterar-senha")
-    public ResponseEntity<String> alterarSenha(@RequestParam String email, @RequestParam String novaSenha) {
+    public ResponseEntity<String> alterarSenha(@Email @NotBlank(message = "Email não pode ser em branco") @RequestParam String email, @NotBlank(message = "Senha não pode ser em branco") @RequestParam String novaSenha) {
         usuarioService.alterarSenha(email, novaSenha);
         return new ResponseEntity<>("Senha alterada com sucesso.", HttpStatus.OK);
     }

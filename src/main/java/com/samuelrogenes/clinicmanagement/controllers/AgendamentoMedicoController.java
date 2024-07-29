@@ -3,7 +3,6 @@ package com.samuelrogenes.clinicmanagement.controllers;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -34,7 +33,6 @@ import lombok.AllArgsConstructor;
 )
 @RestController
 @RequestMapping("api/agendamentos")
-@Validated
 @AllArgsConstructor
 public class AgendamentoMedicoController {
 
@@ -173,10 +171,10 @@ public class AgendamentoMedicoController {
             )
     })
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteAgendamento(@PathVariable Long id) {
+    public ResponseEntity<String> deleteAgendamento(@PathVariable Long id) {
         boolean deleted = agendamentoService.deleteById(id);
         if (deleted) {
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            return new ResponseEntity<>("Agendamento excluído com sucesso.", HttpStatus.NO_CONTENT);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }

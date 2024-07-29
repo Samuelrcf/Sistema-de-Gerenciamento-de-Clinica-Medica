@@ -25,14 +25,14 @@ public class AgendamentoMedicoMapper {
     }
     
     public static AgendamentoMedicoDto mapperToAgendamentoMedicoDto(AgendamentoMedicoEntity agendamentoMedicoEntity) {
-        AgendamentoMedicoDto dto = new AgendamentoMedicoDto();
-        dto.setMedicoId(agendamentoMedicoEntity.getMedico().getId());
-        dto.setPacienteId(agendamentoMedicoEntity.getPaciente().getId());
-        dto.setMotivoDaConsulta(agendamentoMedicoEntity.getMotivoDaConsulta());
-        dto.setDataDaConsulta(agendamentoMedicoEntity.getDataDaConsulta());
-        dto.setHoraDaConsulta(agendamentoMedicoEntity.getHoraDaConsulta());
-        dto.setLocal(agendamentoMedicoEntity.getLocal());
-        dto.setObservacoes(agendamentoMedicoEntity.getObservacoes());
-        return dto;
+        AgendamentoMedicoDto agendamentoMedicoDto = new AgendamentoMedicoDto();
+        agendamentoMedicoDto.setMedicoId(agendamentoMedicoEntity.getMedico().getId());
+        agendamentoMedicoDto.setPacienteId(agendamentoMedicoEntity.getPaciente().getId());
+        agendamentoMedicoDto.setMotivoDaConsulta(agendamentoMedicoEntity.getMotivoDaConsulta());
+        agendamentoMedicoDto.setDataDaConsulta(agendamentoMedicoEntity.getDataDaConsulta());
+        agendamentoMedicoDto.setHoraDaConsulta(agendamentoMedicoEntity.getHoraDaConsulta());
+        agendamentoMedicoDto.setLocal(agendamentoMedicoEntity.getLocal());
+        agendamentoMedicoDto.setObservacoes(agendamentoMedicoEntity.getObservacoes());
+        return agendamentoMedicoDto;
     }
 }

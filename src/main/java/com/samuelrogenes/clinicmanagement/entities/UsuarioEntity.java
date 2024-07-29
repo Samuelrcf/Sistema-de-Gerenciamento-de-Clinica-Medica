@@ -8,8 +8,6 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -44,7 +42,6 @@ public class UsuarioEntity implements Serializable, UserDetails {
 	private String email;
 	
 	@Column(nullable = false)
-	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 	private String senha;
 	
 	private String codigo;
