@@ -171,10 +171,10 @@ public class AgendamentoMedicoController {
             )
     })
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteAgendamento(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteAgendamento(@PathVariable Long id) {
         boolean deleted = agendamentoService.deleteById(id);
         if (deleted) {
-            return new ResponseEntity<>("Agendamento excluído com sucesso.", HttpStatus.NO_CONTENT);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }

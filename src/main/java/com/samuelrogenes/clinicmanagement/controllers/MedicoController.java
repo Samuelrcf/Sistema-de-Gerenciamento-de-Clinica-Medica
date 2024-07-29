@@ -170,10 +170,10 @@ public class MedicoController {
             )
     })
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteById(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteById(@PathVariable Long id) {
         boolean deleted = medicoService.deleteById(id);
         if (deleted) {
-            return new ResponseEntity<>("Medico excluído com sucesso.", HttpStatus.NO_CONTENT);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
