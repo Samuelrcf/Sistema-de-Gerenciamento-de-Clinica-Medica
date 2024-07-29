@@ -7,10 +7,10 @@ import com.samuelrogenes.clinicmanagement.projections.AgendamentoMedicoProjectio
 
 public interface IAgendamentoMedicoService {
 
-    AgendamentoMedicoDto create(AgendamentoMedicoDto agendamentoDto);
-    AgendamentoMedicoProjection findById(Long id);
-    Page<AgendamentoMedicoProjection> findAll(int page, int size);
-    AgendamentoMedicoDto update(Long id, AgendamentoMedicoDto agendamentoDto);
-    boolean deleteById(Long id);
+	public AgendamentoMedicoDto create(AgendamentoMedicoDto agendamentoDto);
+	public AgendamentoMedicoProjection findById(Long id);
+	public Page<AgendamentoMedicoProjection> findAll(int page, int size);
+	public AgendamentoMedicoDto update(Long id, AgendamentoMedicoDto agendamentoDto);
+	public boolean deleteById(Long id);
     
 }

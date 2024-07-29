@@ -6,8 +6,8 @@ import com.samuelrogenes.clinicmanagement.entities.UsuarioEntity;
 
 public interface ITokenService {
 
-	String generateToken(UsuarioEntity usuario);
-	String validateToken(String token);
-	Instant generateExpirationDate();
+	public String generateToken(UsuarioEntity usuario);
+	public String validateToken(String token);
+	public Instant generateExpirationDate();
 	
 }

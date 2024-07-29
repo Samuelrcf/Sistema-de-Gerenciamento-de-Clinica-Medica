@@ -36,8 +36,8 @@ public class UsuarioService implements IUsuarioService{
 
     @Override
 	public String login(LoginDto loginDto) {
-		UserDetails email = usuarioRepository.findByNome(loginDto.getNome());
-		if (email == null) {
+		UserDetails nome = usuarioRepository.findByNome(loginDto.getNome());
+		if (nome == null) {
 			throw new UsernameNotFoundException("O nome " + loginDto.getNome() + " não existe.");
 		}
 		try {

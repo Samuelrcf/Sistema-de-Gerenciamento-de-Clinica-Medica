@@ -116,8 +116,6 @@ public class MedicoService implements IMedicoService {
 	    );
 	}
 
-
-
 	@Transactional
 	@Override
 	public boolean deleteById(Long id) {
