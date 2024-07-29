@@ -1,0 +1,45 @@
+spring:
+  application:
+    name: clinicmanagement
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/clinic
+    username: postgres
+    password: root
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+      properties:
+        hibernate:
+          jdbc:
+            lab:
+              non_contextual_creation: true
+    open-in-view: false
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: ${EMAIL_USERNAME:seuemail@example.com}
+    password: ${EMAIL_PASSWORD:suasenha}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+
+api:
+  clinic:
+    token:
+      secret: ${JWT_SECRET:any-secret-key}
+
+logging:
+  level:
+    org:
+      hibernate:
+        SQL: DEBUG

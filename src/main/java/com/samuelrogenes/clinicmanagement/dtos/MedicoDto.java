@@ -1,11 +1,10 @@
 package com.samuelrogenes.clinicmanagement.dtos;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
-import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 @Data
@@ -102,12 +101,12 @@ public class MedicoDto {
     )
     private String ufConselho;
 
-    @NotNull(message = "Número do conselho não pode ser nulo")
+    @NotBlank(message = "Número do conselho não pode ser em branco")
     @Schema(
             description = "Número do registro do conselho médico",
             example = "123456"
     )
-    private Integer numeroDoConselho;
+    private String numeroDoConselho;
 
     @Pattern(regexp = "\\d{5}", message = "CBO deve conter 5 caracteres")
     @Schema(

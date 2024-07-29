@@ -33,7 +33,7 @@ public class MedicoEntity extends PessoaEntity {
 	private String UFConselho;
 	
 	@Column(nullable = false)
-	private Integer numeroDoConselho;
+	private String numeroDoConselho;
 	
 	private String CBO;
 	
