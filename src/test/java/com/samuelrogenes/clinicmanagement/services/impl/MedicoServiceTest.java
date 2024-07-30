@@ -1,4 +1,4 @@
-package com.samuelrogenes.clinicmanagement.services;
+package com.samuelrogenes.clinicmanagement.services.impl;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -24,6 +24,10 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 import com.samuelrogenes.clinicmanagement.dtos.MedicoDto;
 import com.samuelrogenes.clinicmanagement.entities.MedicoEntity;
@@ -33,7 +37,6 @@ import com.samuelrogenes.clinicmanagement.exceptions.ResourceNotFoundException;
 import com.samuelrogenes.clinicmanagement.projections.MedicoProjection;
 import com.samuelrogenes.clinicmanagement.repositories.MedicoRepository;
 import com.samuelrogenes.clinicmanagement.repositories.PacienteRepository;
-import com.samuelrogenes.clinicmanagement.services.impl.MedicoService;
 
 @ExtendWith(MockitoExtension.class)
 public class MedicoServiceTest {
@@ -139,6 +142,22 @@ public class MedicoServiceTest {
         });
 
         assertTrue(thrown.getMessage().contains("Médico com ID 1 não foi encontrado"));
+    }
+
+    @Test
+    public void testFindAll() {
+        List<MedicoProjection> medicoProjections = new ArrayList<>();
+
+        Pageable pageable = PageRequest.of(0, 10);
+        Page<MedicoProjection> page = new PageImpl<>(medicoProjections, pageable, medicoProjections.size());
+
+        when(medicoRepository.findAllMedicos(any(Pageable.class))).thenReturn(page);
+
+        Page<MedicoProjection> result = medicoService.findAll(0, 10);
+
+        assertNotNull(result);
+        assertEquals(medicoProjections.size(), result.getTotalElements());
+        verify(medicoRepository, times(1)).findAllMedicos(any(Pageable.class));
     }
 
     @Test

@@ -108,19 +108,17 @@ public class PacienteService implements IPacienteService {
         StringBuilder errorMessage = new StringBuilder("Conflito de dados:");
 
         for (PacienteEntity paciente : conflictingPacientes) {
-            if (!paciente.getId().equals(id)) {
-                if (paciente.getEmail().equals(pacienteDto.getEmail())) {
-                    errorMessage.append(" Email " + pacienteDto.getEmail() + " já cadastrado.");
-                }
-                if (paciente.getTelefone().equals(pacienteDto.getTelefone())) {
-                    errorMessage.append(" Telefone " + pacienteDto.getTelefone() + " já cadastrado.");
-                }
-                if (paciente.getCpf().equals(pacienteDto.getCpf())) {
-                    errorMessage.append(" CPF " + pacienteDto.getCpf() + " já cadastrado.");
-                }
-                if (paciente.getRG().equals(pacienteDto.getRg())) {
-                    errorMessage.append(" RG " + pacienteDto.getRg() + " já cadastrado.");
-                }
+            if (paciente.getEmail().equals(pacienteDto.getEmail())) {
+                errorMessage.append(" Email " + pacienteDto.getEmail() + " já cadastrado.");
+            }
+            if (paciente.getTelefone().equals(pacienteDto.getTelefone())) {
+                errorMessage.append(" Telefone " + pacienteDto.getTelefone() + " já cadastrado.");
+            }
+            if (paciente.getCpf().equals(pacienteDto.getCpf())) {
+                errorMessage.append(" CPF " + pacienteDto.getCpf() + " já cadastrado.");
+            }
+            if (paciente.getRG().equals(pacienteDto.getRg())) {
+                errorMessage.append(" RG " + pacienteDto.getRg() + " já cadastrado.");
             }
         }
 

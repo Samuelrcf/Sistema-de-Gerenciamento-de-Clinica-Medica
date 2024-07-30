@@ -1,4 +1,4 @@
-package com.samuelrogenes.clinicmanagement.services;
+package com.samuelrogenes.clinicmanagement.services.impl;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -30,9 +30,6 @@ import com.samuelrogenes.clinicmanagement.entities.PacienteEntity;
 import com.samuelrogenes.clinicmanagement.exceptions.ConflictException;
 import com.samuelrogenes.clinicmanagement.projections.AgendamentoMedicoProjection;
 import com.samuelrogenes.clinicmanagement.repositories.AgendamentoMedicoRepository;
-import com.samuelrogenes.clinicmanagement.services.impl.AgendamentoMedicoService;
-import com.samuelrogenes.clinicmanagement.services.impl.MedicoService;
-import com.samuelrogenes.clinicmanagement.services.impl.PacienteService;
 
 class AgendamentoMedicoServiceTest {
 

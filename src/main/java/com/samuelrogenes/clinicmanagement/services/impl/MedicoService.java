@@ -106,17 +106,15 @@ public class MedicoService implements IMedicoService {
 	    StringBuilder errorMessage = new StringBuilder("Conflito de dados:");
 
 	    for (MedicoEntity medico : conflictingMedicos) {
-	        if (!medico.getId().equals(id)) {
-	            if (medico.getEmail().equals(medicoDto.getEmail())) {
-	                errorMessage.append(" Email " + medicoDto.getEmail() + " já cadastrado.");
-	            }
-	            if (medico.getTelefone().equals(medicoDto.getTelefone())) {
-	                errorMessage.append(" Telefone " + medicoDto.getTelefone() + " já cadastrado.");
-	            }
-	            if (medico.getCpf().equals(medicoDto.getCpf())) {
-	                errorMessage.append(" CPF " + medicoDto.getCpf() + " já cadastrado.");
-	            }
-	        }
+            if (medico.getEmail().equals(medicoDto.getEmail())) {
+                errorMessage.append(" Email " + medicoDto.getEmail() + " já cadastrado.");
+            }
+            if (medico.getTelefone().equals(medicoDto.getTelefone())) {
+                errorMessage.append(" Telefone " + medicoDto.getTelefone() + " já cadastrado.");
+            }
+            if (medico.getCpf().equals(medicoDto.getCpf())) {
+                errorMessage.append(" CPF " + medicoDto.getCpf() + " já cadastrado.");
+            }
 	    }
 
 	    for (PacienteEntity paciente : conflictingPacientes) {

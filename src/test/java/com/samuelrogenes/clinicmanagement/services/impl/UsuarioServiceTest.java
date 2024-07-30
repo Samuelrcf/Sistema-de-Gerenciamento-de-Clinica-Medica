@@ -1,4 +1,4 @@
-package com.samuelrogenes.clinicmanagement.services;
+package com.samuelrogenes.clinicmanagement.services.impl;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -35,9 +35,6 @@ import com.samuelrogenes.clinicmanagement.entities.UsuarioEntity;
 import com.samuelrogenes.clinicmanagement.exceptions.ResourceAlreadyExistsException;
 import com.samuelrogenes.clinicmanagement.projections.UsuarioProjection;
 import com.samuelrogenes.clinicmanagement.repositories.UsuarioRepository;
-import com.samuelrogenes.clinicmanagement.services.impl.EmailService;
-import com.samuelrogenes.clinicmanagement.services.impl.TokenService;
-import com.samuelrogenes.clinicmanagement.services.impl.UsuarioService;
 
 public class UsuarioServiceTest {
 
