@@ -21,7 +21,7 @@ public interface MedicoProjection {
     String getConselhoMedico();
 
     @Schema(description = "Número do conselho do médico", example = "12345")
-    Integer getNumeroDoConselho();
+    String getNumeroDoConselho();
 
     @Schema(description = "Código Brasileiro de Ocupações (CBO) do médico", example = "12345")
     String getCBO();
