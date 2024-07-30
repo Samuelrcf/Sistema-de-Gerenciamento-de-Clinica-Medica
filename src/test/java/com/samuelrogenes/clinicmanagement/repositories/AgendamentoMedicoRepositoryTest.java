@@ -75,7 +75,9 @@ public class AgendamentoMedicoRepositoryTest {
         LocalTime inicioHoraMin = agendamento.getHoraDaConsulta().minusMinutes(20);
         LocalTime fimHoraMax = agendamento.getHoraDaConsulta().plusMinutes(20);
         LocalTime inicioHoraMax = agendamento.getHoraDaConsulta().plusMinutes(10);
-        List<AgendamentoMedicoEntity> agendamentos = agendamentoMedicoRepository.findAgendamentosNoHorario(dataConsulta, inicioHoraMin, fimHoraMax, inicioHoraMax);
+        List<AgendamentoMedicoEntity> agendamentos = agendamentoMedicoRepository.findAgendamentosNoHorario(
+            dataConsulta, inicioHoraMin, fimHoraMax, inicioHoraMax, medico.getId(), paciente.getId()
+        );
         assertThat(agendamentos).isNotEmpty();
     }
 
@@ -85,7 +87,9 @@ public class AgendamentoMedicoRepositoryTest {
         LocalTime inicioHoraMin = agendamento.getHoraDaConsulta().minusMinutes(20);
         LocalTime fimHoraMax = agendamento.getHoraDaConsulta().plusMinutes(20);
         LocalTime inicioHoraMax = agendamento.getHoraDaConsulta().plusMinutes(10);
-        List<AgendamentoMedicoEntity> agendamentos = agendamentoMedicoRepository.findAgendamentosByHorarioExceptId(dataConsulta, inicioHoraMin, fimHoraMax, inicioHoraMax, agendamento.getId());
+        List<AgendamentoMedicoEntity> agendamentos = agendamentoMedicoRepository.findAgendamentosByHorarioExceptId(
+            dataConsulta, inicioHoraMin, fimHoraMax, inicioHoraMax, medico.getId(), paciente.getId(), agendamento.getId()
+        );
         assertThat(agendamentos).isEmpty();
     }
 }

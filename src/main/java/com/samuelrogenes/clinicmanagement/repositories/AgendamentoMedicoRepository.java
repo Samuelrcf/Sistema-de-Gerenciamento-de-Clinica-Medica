@@ -30,17 +30,21 @@ public interface AgendamentoMedicoRepository extends JpaRepository<AgendamentoMe
 	@Query("SELECT a FROM AgendamentoMedicoEntity a WHERE a.dataDaConsulta = :dataConsulta "
 			+ "AND ((a.horaDaConsulta BETWEEN :inicioHoraMin AND :fimHoraMax) "
 			+ "OR (a.horaDaConsulta BETWEEN :inicioHoraMax AND :fimHoraMax) "
-			+ "OR (a.horaDaConsulta <= :inicioHoraMax AND a.horaDaConsulta >= :inicioHoraMin))")
+			+ "OR (a.horaDaConsulta <= :inicioHoraMax AND a.horaDaConsulta >= :inicioHoraMin)) "
+			+ "AND (a.medico.id = :medicoId OR a.paciente.id = :pacienteId)")
 	List<AgendamentoMedicoEntity> findAgendamentosNoHorario(@Param("dataConsulta") LocalDate dataConsulta,
 			@Param("inicioHoraMin") LocalTime inicioHoraMin, @Param("fimHoraMax") LocalTime fimHoraMax,
-			@Param("inicioHoraMax") LocalTime inicioHoraMax);
+			@Param("inicioHoraMax") LocalTime inicioHoraMax, @Param("medicoId") Long medicoId,
+			@Param("pacienteId") Long pacienteId);
 
 	@Query("SELECT a FROM AgendamentoMedicoEntity a WHERE a.dataDaConsulta = :dataConsulta "
 			+ "AND ((a.horaDaConsulta BETWEEN :inicioHoraMin AND :fimHoraMax) "
 			+ "OR (a.horaDaConsulta BETWEEN :inicioHoraMax AND :fimHoraMax) "
-			+ "OR (a.horaDaConsulta <= :inicioHoraMax AND a.horaDaConsulta >= :inicioHoraMin)) AND a.id <> :id")
+			+ "OR (a.horaDaConsulta <= :inicioHoraMax AND a.horaDaConsulta >= :inicioHoraMin)) "
+			+ "AND (a.medico.id = :medicoId OR a.paciente.id = :pacienteId) AND a.id <> :id")
 	List<AgendamentoMedicoEntity> findAgendamentosByHorarioExceptId(@Param("dataConsulta") LocalDate dataConsulta,
 			@Param("inicioHoraMin") LocalTime inicioHoraMin, @Param("fimHoraMax") LocalTime fimHoraMax,
-			@Param("inicioHoraMax") LocalTime inicioHoraMax, @Param("id") Long id);
+			@Param("inicioHoraMax") LocalTime inicioHoraMax, @Param("medicoId") Long medicoId,
+			@Param("pacienteId") Long pacienteId, @Param("id") Long id);
 
 }

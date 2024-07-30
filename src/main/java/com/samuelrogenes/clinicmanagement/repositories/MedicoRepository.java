@@ -27,5 +27,8 @@ public interface MedicoRepository extends JpaRepository<MedicoEntity, Long> {
 	@Query("SELECT m.id AS id, m.nomeCompleto AS nomeCompleto, m.cpf AS cpf, m.conselhoMedico AS conselhoMedico, "
 			+ "m.numeroDoConselho AS numeroDoConselho, m.CBO AS CBO FROM MedicoEntity m")
 	Page<MedicoProjection> findAllMedicos(Pageable pageable);
+	
+	@Query("SELECT COUNT(p) > 0 FROM PacienteEntity p WHERE p.cpf = :cpf")
+	boolean existsByCpfInPaciente(@Param("cpf") String cpf);
 
 }

@@ -139,9 +139,12 @@ class AgendamentoMedicoServiceTest {
 
     @Test
     void testValidateHorarioWithConflict() {
-        when(agendamentoMedicoRepository.findAgendamentosNoHorario(any(LocalDate.class), any(LocalTime.class), any(LocalTime.class), any(LocalTime.class)))
-                .thenReturn(List.of(agendamento));
+        when(agendamentoMedicoRepository.findAgendamentosNoHorario(
+            any(LocalDate.class), any(LocalTime.class), any(LocalTime.class), any(LocalTime.class),
+            any(Long.class), any(Long.class)
+        )).thenReturn(List.of(agendamento));
 
         assertThrows(ConflictException.class, () -> agendamentoMedicoService.create(agendamentoDto));
     }
 }
+

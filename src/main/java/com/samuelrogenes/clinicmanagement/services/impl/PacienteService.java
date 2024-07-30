@@ -8,11 +8,13 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.samuelrogenes.clinicmanagement.dtos.PacienteDto;
+import com.samuelrogenes.clinicmanagement.entities.MedicoEntity;
 import com.samuelrogenes.clinicmanagement.entities.PacienteEntity;
 import com.samuelrogenes.clinicmanagement.exceptions.ResourceAlreadyExistsException;
 import com.samuelrogenes.clinicmanagement.exceptions.ResourceNotFoundException;
 import com.samuelrogenes.clinicmanagement.mapper.PacienteMapper;
 import com.samuelrogenes.clinicmanagement.projections.PacienteProjection;
+import com.samuelrogenes.clinicmanagement.repositories.MedicoRepository;
 import com.samuelrogenes.clinicmanagement.repositories.PacienteRepository;
 import com.samuelrogenes.clinicmanagement.services.IPacienteService;
 
@@ -24,29 +26,46 @@ import lombok.AllArgsConstructor;
 public class PacienteService implements IPacienteService {
 
     private PacienteRepository pacienteRepository;
+    private MedicoRepository medicoRepository;
 
     @Override
     public PacienteDto create(PacienteDto pacienteDto) {
-        List<PacienteEntity> conflictingPacientes = pacienteRepository.findConflictingPaciente(pacienteDto.getEmail(), pacienteDto.getTelefone(), pacienteDto.getCpf(), pacienteDto.getRg());
+        List<MedicoEntity> conflictingMedicos = medicoRepository.findConflictingMedico(
+                pacienteDto.getEmail(), pacienteDto.getTelefone(), pacienteDto.getCpf());
 
-        StringBuilder errorMessage = new StringBuilder("Conflito de dados:");
+        StringBuilder errorMessage = new StringBuilder("Conflito de dados em médicos:");
 
-        for (PacienteEntity paciente : conflictingPacientes) {
-            if (paciente.getEmail().equals(pacienteDto.getEmail())) {
-                errorMessage.append(" Email " + pacienteDto.getEmail() + " já cadastrado.");
+        for (MedicoEntity medico : conflictingMedicos) {
+            if (medico.getEmail().equals(pacienteDto.getEmail())) {
+                errorMessage.append(" Email " + pacienteDto.getEmail() + " já cadastrado em Médico.");
             }
-            if (paciente.getTelefone().equals(pacienteDto.getTelefone())) {
-                errorMessage.append(" Telefone " + pacienteDto.getTelefone() + " já cadastrado.");
+            if (medico.getTelefone().equals(pacienteDto.getTelefone())) {
+                errorMessage.append(" Telefone " + pacienteDto.getTelefone() + " já cadastrado em Médico.");
             }
-            if (paciente.getCpf().equals(pacienteDto.getCpf())) {
-                errorMessage.append(" CPF " + pacienteDto.getCpf() + " já cadastrado.");
-            }
-            if (paciente.getRG().equals(pacienteDto.getRg())) {
-                errorMessage.append(" RG " + pacienteDto.getRg() + " já cadastrado.");
+            if (medico.getCpf().equals(pacienteDto.getCpf())) {
+                errorMessage.append(" CPF " + pacienteDto.getCpf() + " já cadastrado em Médico.");
             }
         }
 
-        if (errorMessage.length() > "Conflito de dados:".length()) {
+        List<PacienteEntity> conflictingPacientes = pacienteRepository.findConflictingPaciente(
+                pacienteDto.getEmail(), pacienteDto.getTelefone(), pacienteDto.getCpf(), pacienteDto.getRg());
+
+        for (PacienteEntity paciente : conflictingPacientes) {
+            if (paciente.getEmail().equals(pacienteDto.getEmail())) {
+                errorMessage.append(" Email " + pacienteDto.getEmail() + " já cadastrado em Paciente.");
+            }
+            if (paciente.getTelefone().equals(pacienteDto.getTelefone())) {
+                errorMessage.append(" Telefone " + pacienteDto.getTelefone() + " já cadastrado em Paciente.");
+            }
+            if (paciente.getCpf().equals(pacienteDto.getCpf())) {
+                errorMessage.append(" CPF " + pacienteDto.getCpf() + " já cadastrado em Paciente.");
+            }
+            if (paciente.getRG().equals(pacienteDto.getRg())) {
+                errorMessage.append(" RG " + pacienteDto.getRg() + " já cadastrado em Paciente.");
+            }
+        }
+
+        if (errorMessage.length() > "Conflito de dados em médicos:".length()) {
             throw new ResourceAlreadyExistsException(errorMessage.toString());
         }
 
@@ -83,28 +102,37 @@ public class PacienteService implements IPacienteService {
 
         List<PacienteEntity> conflictingPacientes = pacienteRepository.findConflictingPaciente(
                 pacienteDto.getEmail(), pacienteDto.getTelefone(), pacienteDto.getCpf(), pacienteDto.getRg());
+        List<MedicoEntity> conflictingMedicos = medicoRepository.findConflictingMedico(
+                pacienteDto.getEmail(), pacienteDto.getTelefone(), pacienteDto.getCpf());
 
         StringBuilder errorMessage = new StringBuilder("Conflito de dados:");
 
         for (PacienteEntity paciente : conflictingPacientes) {
             if (!paciente.getId().equals(id)) {
-                boolean emailConflict = paciente.getEmail().equals(pacienteDto.getEmail()) && !paciente.getEmail().equals(pacienteExistente.getEmail());
-                boolean telefoneConflict = paciente.getTelefone().equals(pacienteDto.getTelefone()) && !paciente.getTelefone().equals(pacienteExistente.getTelefone());
-                boolean cpfConflict = paciente.getCpf().equals(pacienteDto.getCpf()) && !paciente.getCpf().equals(pacienteExistente.getCpf());
-                boolean rgConflict = paciente.getRG().equals(pacienteDto.getRg()) && !paciente.getRG().equals(pacienteExistente.getRG());
-
-                if (emailConflict) {
+                if (paciente.getEmail().equals(pacienteDto.getEmail())) {
                     errorMessage.append(" Email " + pacienteDto.getEmail() + " já cadastrado.");
                 }
-                if (telefoneConflict) {
+                if (paciente.getTelefone().equals(pacienteDto.getTelefone())) {
                     errorMessage.append(" Telefone " + pacienteDto.getTelefone() + " já cadastrado.");
                 }
-                if (cpfConflict) {
+                if (paciente.getCpf().equals(pacienteDto.getCpf())) {
                     errorMessage.append(" CPF " + pacienteDto.getCpf() + " já cadastrado.");
                 }
-                if (rgConflict) {
+                if (paciente.getRG().equals(pacienteDto.getRg())) {
                     errorMessage.append(" RG " + pacienteDto.getRg() + " já cadastrado.");
                 }
+            }
+        }
+
+        for (MedicoEntity medico : conflictingMedicos) {
+            if (medico.getEmail().equals(pacienteDto.getEmail())) {
+                errorMessage.append(" Email " + pacienteDto.getEmail() + " já cadastrado.");
+            }
+            if (medico.getTelefone().equals(pacienteDto.getTelefone())) {
+                errorMessage.append(" Telefone " + pacienteDto.getTelefone() + " já cadastrado.");
+            }
+            if (medico.getCpf().equals(pacienteDto.getCpf())) {
+                errorMessage.append(" CPF " + pacienteDto.getCpf() + " já cadastrado.");
             }
         }
 
